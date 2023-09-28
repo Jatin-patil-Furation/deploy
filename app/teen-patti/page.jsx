@@ -429,7 +429,7 @@ const LandscapePage = () => {
           <div className="left-container flex justify-between items-center gap-7 ">
             <div className="img-container">
               <img
-                src={"http://localhost:3000/assets/Game-table/arrow-left.svg"}
+                src={"/assets/Game-table/arrow-left.svg"}
                 alt="left-arrow"
                 className="w-[90%]"
                 width={50}
@@ -438,7 +438,7 @@ const LandscapePage = () => {
             </div>
             <button className="relative custom-gradient px-5 py-1">
               <img
-                src={"http://localhost:3000/assets/Game-table/red-chip.svg"}
+                src={"/assets/Game-table/red-chip.svg"}
                 alt="left-arrow"
                 className="absolute  w-[30%] left-[-15%] top-[-2%]"
                 width={50}
@@ -450,7 +450,7 @@ const LandscapePage = () => {
           <div className="right-container flex justify-between gap-2">
             <div>
               <img
-                src={"http://localhost:3000/assets/Game-table/message.svg"}
+                src={"/assets/Game-table/message.svg"}
                 alt="message icon"
                 width={50}
                 height={50}
@@ -459,7 +459,7 @@ const LandscapePage = () => {
             </div>
             <div>
               <img
-                src={"http://localhost:3000/assets/Game-table/info-tag.svg"}
+                src={"/assets/Game-table/info-tag.svg"}
                 alt="Info-tag"
                 width={50}
                 height={50}
@@ -474,7 +474,7 @@ const LandscapePage = () => {
             <div className="relative w-full h-full">
               <img
                 src={
-                  "http://localhost:3000/assets/Game-table/table-background.svg"
+                  "/assets/Game-table/table-background.svg"
                 }
                 alt="table"
                 width={800}
@@ -486,7 +486,7 @@ const LandscapePage = () => {
                   <div className="relative ">
                     <img
                       src={
-                        "http://localhost:3000/assets/Game-table/red-chip.svg"
+                        "/assets/Game-table/red-chip.svg"
                       }
                       alt="red-chip"
                       width={50}
@@ -501,7 +501,7 @@ const LandscapePage = () => {
               )}
               <img
                 className="absolute left-[49%] top-[-1rem] mxl:top-[-1rem] transform -translate-x-1/2 -translate-y-1/2 w-[19%] mxl:w-[20%]  2xl:w-[22%]"
-                src={"http://localhost:3000/assets/Game-table/Game-host.svg"}
+                src={"/assets/Game-table/Game-host.svg"}
                 alt="game-host"
                 width={50}
                 height={50}
@@ -544,7 +544,7 @@ const LandscapePage = () => {
                       {slotPlayerMap?.[(+playerSlotIndex + 4) % 7 || 7]
                         ?.winner && (
                         <img
-                          src={"http://localhost:3000/assets/game/winning.gif"}
+                          src={"/assets/game/winning.gif"}
                           alt="win GIF"
                           width={200}
                           height={200}
@@ -567,7 +567,7 @@ const LandscapePage = () => {
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
                           src={
-                            "http://localhost:3000/assets/Game-table/red-chip.svg"
+                            "/assets/Game-table/red-chip.svg"
                           }
                           alt="red-chip"
                           width={50}
@@ -604,7 +604,7 @@ const LandscapePage = () => {
                           backgroundImage: `url(${
                             slotPlayerMap[(+playerSlotIndex + 5) % 7 || 7]
                               ?.playerInfo?.avatar ||
-                            "http://localhost:3000/assets/drawer/user-avatar.svg"
+                            "/assets/drawer/user-avatar.svg"
                           })`,
                         }}
                       >
@@ -624,7 +624,7 @@ const LandscapePage = () => {
                       {slotPlayerMap?.[(+playerSlotIndex + 5) % 7 || 7]
                         ?.winner && (
                         <img
-                          src={"http://localhost:3000/assets/game/winning.gif"}
+                          src={"/assets/game/winning.gif"}
                           alt="win GIF"
                           width={200}
                           height={200}
@@ -648,7 +648,7 @@ const LandscapePage = () => {
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
                           src={
-                            "http://localhost:3000/assets/Game-table/red-chip.svg"
+                            "/assets/Game-table/red-chip.svg"
                           }
                           alt="red-chip"
                           width={50}
@@ -684,7 +684,7 @@ const LandscapePage = () => {
                           backgroundImage: `url(${
                             slotPlayerMap[(+playerSlotIndex + 6) % 7 || 7]
                               ?.playerInfo?.avatar ||
-                            "http://localhost:3000/assets/drawer/user-avatar.svg"
+                            "/assets/drawer/user-avatar.svg"
                           })`,
                         }}
                       >
@@ -704,7 +704,7 @@ const LandscapePage = () => {
                       {slotPlayerMap?.[(+playerSlotIndex + 6) % 7 || 7]
                         ?.winner && (
                         <img
-                          src={"http://localhost:3000/assets/game/winning.gif"}
+                          src={"/assets/game/winning.gif"}
                           alt="win GIF"
                           width={200}
                           height={200}
@@ -727,7 +727,7 @@ const LandscapePage = () => {
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
                           src={
-                            "http://localhost:3000/assets/Game-table/red-chip.svg"
+                            "/assets/Game-table/red-chip.svg"
                           }
                           alt="red-chip"
                           width={50}
@@ -763,7 +763,7 @@ const LandscapePage = () => {
                           backgroundImage: `url(${
                             slotPlayerMap[(+playerSlotIndex + 3) % 7 || 7]
                               ?.playerInfo?.avatar ||
-                            "http://localhost:3000/assets/drawer/user-avatar.svg"
+                            "/assets/drawer/user-avatar.svg"
                           })`,
                         }}
                       >
@@ -783,7 +783,7 @@ const LandscapePage = () => {
                       {slotPlayerMap?.[(+playerSlotIndex + 3) % 7 || 7]
                         ?.winner && (
                         <img
-                          src={"http://localhost:3000/assets/game/winning.gif"}
+                          src={"/assets/game/winning.gif"}
                           alt="win GIF"
                           width={200}
                           height={200}
@@ -806,7 +806,7 @@ const LandscapePage = () => {
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
                           src={
-                            "http://localhost:3000/assets/Game-table/red-chip.svg"
+                            "/assets/Game-table/red-chip.svg"
                           }
                           alt="red-chip"
                           width={50}
@@ -843,7 +843,7 @@ const LandscapePage = () => {
                           backgroundImage: `url(${
                             slotPlayerMap[(+playerSlotIndex + 2) % 7 || 7]
                               ?.playerInfo?.avatar ||
-                            "http://localhost:3000/assets/drawer/user-avatar.svg"
+                            "/assets/drawer/user-avatar.svg"
                           })`,
                         }}
                       >
@@ -863,7 +863,7 @@ const LandscapePage = () => {
                       {slotPlayerMap?.[(+playerSlotIndex + 2) % 7 || 7]
                         ?.winner && (
                         <img
-                          src={"http://localhost:3000/assets/game/winning.gif"}
+                          src={"/assets/game/winning.gif"}
                           alt="win GIF"
                           width={200}
                           height={200}
@@ -886,7 +886,7 @@ const LandscapePage = () => {
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
                           src={
-                            "http://localhost:3000/assets/Game-table/red-chip.svg"
+                            "/assets/Game-table/red-chip.svg"
                           }
                           alt="red-chip"
                           width={50}
@@ -922,7 +922,7 @@ const LandscapePage = () => {
                           backgroundImage: `url(${
                             slotPlayerMap[(+playerSlotIndex + 1) % 7 || 7]
                               ?.playerInfo?.avatar ||
-                            "http://localhost:3000/assets/drawer/user-avatar.svg"
+                            "/assets/drawer/user-avatar.svg"
                           })`,
                         }}
                       >
@@ -942,7 +942,7 @@ const LandscapePage = () => {
                       {slotPlayerMap?.[(+playerSlotIndex + 1) % 7 || 7]
                         ?.winner && (
                         <img
-                          src={"http://localhost:3000/assets/game/winning.gif"}
+                          src={"/assets/game/winning.gif"}
                           alt="win GIF"
                           width={200}
                           height={200}
@@ -965,7 +965,7 @@ const LandscapePage = () => {
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
                           src={
-                            "http://localhost:3000/assets/Game-table/red-chip.svg"
+                            "/assets/Game-table/red-chip.svg"
                           }
                           alt="red-chip"
                           width={50}
@@ -1000,7 +1000,7 @@ const LandscapePage = () => {
                   />
                   {slotPlayerMap?.[playerSlotIndex]?.winner && (
                     <img
-                      src={"http://localhost:3000/assets/game/winning.gif"}
+                      src={"/assets/game/winning.gif"}
                       alt="win GIF"
                       width={200}
                       height={200}
@@ -1054,7 +1054,7 @@ const LandscapePage = () => {
               className={`relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 transform  transition-transform duration-[3000] ease-in-out z-[1000] `}
             >
               <img
-                src={"http://localhost:3000/assets/Game-table/red-chip.svg"}
+                src={"/assets/Game-table/red-chip.svg"}
                 alt="red-chip"
                 width={50}
                 height={50}
