@@ -10,7 +10,9 @@ import Cardleftbottom from "@/components/Animation/Cardleftbottom";
 import Righttop from "@/components/Animation/Righttop";
 import Rightmiddle from "@/components/Animation/Rightmiddle";
 import Rightbottom from "@/components/Animation/Rightbottom";
-const socket = io("http://localhost:8000/", { transports: ["websocket"] });
+const socket = io("https://socketofteenpatti.onrender.com/", {
+  transports: ["websocket"],
+});
 import Shareinvite from "@/components/modals/Shareinvite";
 import { useDispatch, useSelector } from "react-redux";
 import { GetloggedData } from "@/redux/AppReducer/Action";
@@ -422,7 +424,7 @@ const LandscapePage = () => {
   console.log(Loggeduser?.avatar);
 
   return (
-    <div className="min-h-screen relative     overflow-y-clip mx-auto">
+    <div className="min-h-screen relative font-roboto bg-[url('/assets/landingPage/sikkaplaybg.svg')] bg-cover bg-no-repeat     overflow-y-clip mx-auto">
       <div className=" text-white relative h-[100vh] w-[100vw] space-y-10 mx-auto py-3 max-w-7xl">
         {/* navbar */}
         <div className="teen-patti-navbar  flex justify-between w-[80%] mx-auto ">
@@ -473,9 +475,7 @@ const LandscapePage = () => {
           <div className="Img-container absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[75vw] sml:w-[65vw] xl:w-[62vw] 2xl:w-[70vw]    max-w-7xl ">
             <div className="relative w-full h-full">
               <img
-                src={
-                  "/assets/Game-table/table-background.svg"
-                }
+                src={"/assets/Game-table/table-background.svg"}
                 alt="table"
                 width={800}
                 height={500}
@@ -485,9 +485,7 @@ const LandscapePage = () => {
                 <div className="absolute left-1/2 top-[30%]  -translate-x-1/2 -translate-y-1/2 ">
                   <div className="relative ">
                     <img
-                      src={
-                        "/assets/Game-table/red-chip.svg"
-                      }
+                      src={"/assets/Game-table/red-chip.svg"}
                       alt="red-chip"
                       width={50}
                       height={50}
@@ -566,9 +564,7 @@ const LandscapePage = () => {
                     <div className="absolute left-2 bottom-0 transform  transition-transform duration-[3000] ease-in-out">
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
-                          src={
-                            "/assets/Game-table/red-chip.svg"
-                          }
+                          src={"/assets/Game-table/red-chip.svg"}
                           alt="red-chip"
                           width={50}
                           height={50}
@@ -647,9 +643,7 @@ const LandscapePage = () => {
                     <div className="">
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
-                          src={
-                            "/assets/Game-table/red-chip.svg"
-                          }
+                          src={"/assets/Game-table/red-chip.svg"}
                           alt="red-chip"
                           width={50}
                           height={50}
@@ -726,9 +720,7 @@ const LandscapePage = () => {
                     <div className="absolute left-1 bottom-0">
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
-                          src={
-                            "/assets/Game-table/red-chip.svg"
-                          }
+                          src={"/assets/Game-table/red-chip.svg"}
                           alt="red-chip"
                           width={50}
                           height={50}
@@ -805,9 +797,7 @@ const LandscapePage = () => {
                     <div className="absolute right-1 bottom-0">
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
-                          src={
-                            "/assets/Game-table/red-chip.svg"
-                          }
+                          src={"/assets/Game-table/red-chip.svg"}
                           alt="red-chip"
                           width={50}
                           height={50}
@@ -885,9 +875,7 @@ const LandscapePage = () => {
                     <div className="border-2 border-red-700 ">
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
-                          src={
-                            "/assets/Game-table/red-chip.svg"
-                          }
+                          src={"/assets/Game-table/red-chip.svg"}
                           alt="red-chip"
                           width={50}
                           height={50}
@@ -964,9 +952,7 @@ const LandscapePage = () => {
                     <div className="absolute right-1 bottom-0">
                       <div className="relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 py-[.10rem]">
                         <img
-                          src={
-                            "/assets/Game-table/red-chip.svg"
-                          }
+                          src={"/assets/Game-table/red-chip.svg"}
                           alt="red-chip"
                           width={50}
                           height={50}
