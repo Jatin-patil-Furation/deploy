@@ -1,0 +1,233 @@
+body {
+  background-color: #ccc;
+}
+
+.containerrighttop {
+  /* border: 5px solid rgb(62, 165, 55); */
+  position: relative;
+  margin: auto;
+  /* margin-top: -5px; */
+  right: 110%;
+  width: 500px;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+}
+
+.cardrighttop {
+  /* border: 1px solid yellow; */
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  height: 60px;
+  width: 40px;
+  -webkit-transition: all 0.8s ease-out;
+  -moz-transition: all 0.8s ease-out;
+  -o-transition: all 0.8s ease-out;
+  transition: all 0.8s ease-out;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+}
+
+.cardrighttop .front,
+.cardrighttop .back {
+  /* border: 2px solid red; */
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.cardrighttop .front {
+  background-color: #fff;
+  text-align: center;
+}
+
+.cardrighttop .back {
+  background-color: #0a47c1;
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.flipped {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+/* Use numeric entities */
+
+.cardrighttop .front::after {
+  display: block;
+  font-size: 1.2em;
+  position: relative;
+  top: 33%;
+  left: 20%;
+  /* margin: 1px; */
+  padding: 1px;
+  /* margin:30% 14% 1% 20%; */
+}
+
+.cardrighttop[data-suite="spade"],
+.cardrighttop[data-suite="club"] {
+  color: black;
+}
+
+.cardrighttop[data-suite="heart"],
+.cardrighttop[data-suite="diamond"] {
+  color: red;
+}
+
+.cardrighttop[data-suite="spade"] .front::after,
+.cardrighttop[data-suite="spade"] .first::after,
+.cardrighttop[data-suite="spade"] .last::before {
+  /* &spade; */
+  content: "\2660";
+}
+
+.cardrighttop[data-suite="club"] .front::after,
+.cardrighttop[data-suite="club"] .first::after,
+.cardrighttop[data-suite="club"] .last::before {
+  /* &club; */
+  content: "\2663";
+}
+
+.cardrighttop[data-suite="heart"] .front::after,
+.cardrighttop[data-suite="heart"] .first::after,
+.cardrighttop[data-suite="heart"] .last::before {
+  /* &heart; */
+  content: "\2665";
+}
+
+.cardrighttop[data-suite="diamond"] .front::after,
+.cardrighttop[data-suite="diamond"] .first::after,
+.cardrighttop[data-suite="diamond"] .last::before {
+  /* &diams; */
+  content: "\2666";
+}
+
+/* Card values */
+
+.cardrighttop .front::after,
+.cardrighttop .front::before {
+  /* border: 2px solid blue; */
+  display: block;
+  position: absolute;
+}
+
+.cardrighttop span:first-child {
+  top: 10px;
+  left: 10px;
+}
+
+.cardrighttop span:last-child {
+  bottom: 10px;
+  right: 10px;
+}
+
+.cardrighttop .last::after {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.cardrighttop span {
+  display: block;
+  position: absolute;
+}
+
+.cardrighttop span::before,
+.cardrighttop span::after {
+  display: block;
+  line-height: 0.9em;
+}
+
+.cardrighttop[data-value="A"] span:first-child::before,
+.cardrighttop[data-value="A"] span:last-child::after {
+  content: "A";
+}
+
+.cardrighttop[data-value="K"] span:first-child::before,
+.cardrighttop[data-value="K"] span:last-child::after {
+  content: "K";
+}
+
+.cardrighttop[data-value="Q"] span:first-child::before,
+.cardrighttop[data-value="Q"] span:last-child::after {
+  content: "Q";
+}
+
+.cardrighttop[data-value="J"] span:first-child::before,
+.cardrighttop[data-value="J"] span:last-child::after {
+  content: "J";
+}
+
+.cardrighttop[data-value="10"] span:first-child::before,
+.cardrighttop[data-value="10"] span:last-child::after {
+  content: "10";
+}
+
+.cardrighttop[data-value="9"] span:first-child::before,
+.cardrighttop[data-value="9"] span:last-child::after {
+  content: "9";
+}
+
+.cardrighttop[data-value="8"] span:first-child::before,
+.cardrighttop[data-value="8"] span:last-child::after {
+  content: "8";
+}
+
+.cardrighttop[data-value="7"] span:first-child::before,
+.cardrighttop[data-value="7"] span:last-child::after {
+  content: "7";
+}
+
+.cardrighttop[data-value="6"] span:first-child::before,
+.cardrighttop[data-value="6"] span:last-child::after {
+  content: "6";
+}
+
+.cardrighttop[data-value="5"] span:first-child::before,
+.cardrighttop[data-value="5"] span:last-child::after {
+  content: "5";
+}
+
+.cardrighttop[data-value="4"] span:first-child::before,
+.cardrighttop[data-value="4"] span:last-child::after {
+  content: "4";
+}
+
+.cardrighttop[data-value="2"] span:first-child::before,
+.cardrighttop[data-value="2"] span:last-child::after {
+  content: "2";
+}
+
+.cardrighttop[data-value="3"] span:first-child::before,
+.cardrighttop[data-value="3"] span:last-child::after {
+  content: "3";
+}
+
+.cardrighttop .back::before {
+  display: block;
+  content: " ";
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: transparent repeat left top;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+");
+}

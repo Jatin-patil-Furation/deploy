@@ -1,0 +1,425 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz@10..48&family=Lato:wght@300&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  scroll-behavior: smooth;
+  background: #0c0c0c;
+  font-family: "Roboto", sans-serif;
+}
+
+@font-face {
+  font-family: myFont;
+  src: url(BillionaRegular-jElgy.ttf);
+}
+
+@font-face {
+  font-family: marbley;
+  src: url(MarbleyfreeRegular-vm857.otf);
+}
+
+.custom-gradient {
+  background: linear-gradient(
+    111deg,
+    rgba(173, 11, 64, 0.88) 9.86%,
+    #ff1917 63.95%
+  );
+  border-radius: 4px;
+}
+.btn-parent {
+  @apply  px-3 py-1 text-base  relative inline-flex  items-center justify-center  m-1 cursor-pointer active:shadow-none shadow-lg;
+}
+.btn-child {
+  @apply absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-20 group-hover:h-20 group-hover:scale-105 opacity-10;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    111deg,
+    rgba(173, 11, 64, 0.88) 9.86%,
+    #ff1917 63.95%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.expl-text {
+  font-family: "marbley";
+}
+
+.main-nav-con {
+  /* background: #1f141f; */
+  box-shadow: rgba(42, 40, 40, 0.3) 0px 10px 8px,
+    rgba(14, 12, 12, 0.22) 0px 5px 2px;
+  background-image: url("../public/assets/hero/navshdow.svg");
+}
+
+.step-itemp {
+  @apply relative flex flex-col justify-center items-center w-[100%];
+}
+.step-itemp:not(:first-child):before {
+  @apply content-['']  bg-[#4A4A4A] absolute w-full  h-[2px]
+   right-2/4 top-1/2 items-center
+   -translate-y-2/4;
+}
+.stepp {
+  @apply w-5 h-5 flex items-center relative border border-[#4A4A4A] bg-black justify-center
+  rounded-full font-semibold z-10;
+}
+.active .activestep {
+  @apply w-4 h-4 bg-white border py-1 pb-1 px-1 border-black rounded-full;
+}
+.active .stepp {
+  @apply border border-white;
+}
+.active .textactive {
+  @apply text-white;
+}
+.completep .completestep {
+  @apply w-4 h-4 bg-white border py-1 pb-1 px-1 border-black rounded-full;
+}
+.completep .stepp {
+  @apply border border-white;
+}
+.completep .textactive {
+  @apply text-white;
+}
+
+.shape {
+  width: 90%;
+  height: 77px;
+  background-color: rgb(154, 12, 12);
+  position: relative;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  top: 0;
+}
+.shape:before {
+  content: "";
+  width: 99.5%;
+  height: 73px;
+  margin: auto;
+  background-color: rgb(59, 8, 17);
+  display: block;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
+  z-index: -1;
+}
+.shape,
+.shape:before {
+  -webkit-clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  clip-path: polygon(3% 0%, 97% 0%, 100% 50%, 97% 100%, 3% 100%, 0% 55%);
+}
+
+/* ----------------- mobile nav---------------------- */
+
+.mobilenav {
+  width: 95%;
+  height: 40px;
+  background-color: rgb(154, 12, 12);
+  position: relative;
+  top: 0;
+}
+.mobilenav:before {
+  content: "";
+  width: 99.2%;
+  height: 37px;
+  margin: auto;
+  background-color: rgb(59, 8, 17);
+  display: block;
+  position: absolute;
+  padding: 10px;
+  left: 1px;
+  top: 1px;
+  bottom: 1px;
+  right: 1px;
+  z-index: -1;
+}
+.mobilenav,
+.mobilenav:before {
+  -webkit-clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 55%);
+}
+
+/* ------- hero section------------ */
+
+.join-button {
+  background: linear-gradient(
+    111.16deg,
+    rgba(173, 11, 64, 0.878431) 9.86%,
+    #ff1917 63.95%
+  );
+}
+
+@media screen and (min-width: 640px) {
+  .mobiles {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 412px) and (min-width: 360px) {
+  .mobilesection {
+    /* border: 2px solid green; */
+    padding-bottom: 20%;
+  }
+  .mobilehero {
+    position: relative;
+    padding-top: 15%;
+  }
+  .heroimage {
+    width: 90%;
+  }
+  .sikka {
+    width: 90%;
+  }
+  .buttoncon {
+    padding-bottom: 5%;
+  }
+}
+
+@media only screen and (max-width: 530px) and (min-width: 413px) {
+  .mobilehero {
+    position: relative;
+    padding-bottom: 10%;
+    padding-top: 15%;
+  }
+  .mobilesection {
+    /* border: 2px solid yellow; */
+    padding: 3%;
+  }
+  .heroimage {
+    width: 75%;
+  }
+  .sikka {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 350px) and (min-width: 320px) {
+  .sikka {
+    width: 50%;
+  }
+}
+
+.champ-con {
+  border: 0.1px solid rgb(0, 0, 0);
+  background: rgb(7, 7, 7);
+  background: linear-gradient(
+    0deg,
+    rgba(7, 7, 7, 1) 66%,
+    rgba(19, 9, 28, 1) 100%
+  );
+}
+
+.champ-logo {
+  background-color: rgba(180, 14, 13, 0.15);
+  font-family: "marbley";
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 3rem;
+  letter-spacing: 0em;
+}
+
+.champ-text {
+  font-family: "marbley";
+  color: #ffffff;
+  font-weight: 400;
+}
+
+@media screen and (min-width: 350px) {
+  .champ-text {
+    margin-top: 10px;
+  }
+}
+
+.champ-talk {
+  background-color: rgba(180, 14, 13, 0.15);
+  clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+  font-family: "marbley";
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 3rem;
+  letter-spacing: 0em;
+}
+.user-descrip {
+  font-family: "Lato";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3rem;
+  letter-spacing: 0em;
+}
+/* ----------- Swiper ------------  */
+.swiper-dot {
+  transition: width 0.3s ease, height 0.3s ease;
+}
+.Image {
+  width: 100px;
+}
+.user-descrip.selected {
+  color: #ffffff;
+}
+
+.congrs.selected {
+  background-image: url("https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/champs/flying.svg");
+  width: 100%;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------------------- */
+
+.game-box-con {
+  border: 0.1px solid #ad0b40;
+  background: linear-gradient(
+    180deg,
+    rgba(75, 73, 74, 0.7) 57.81%,
+    rgba(0, 0, 0, 0.7) 86.98%
+  );
+  border-image-source: linear-gradient(
+      111.16deg,
+      rgba(173, 11, 64, 0.878431) 9.86%,
+      #ff1917 63.95%
+    ),
+    linear-gradient(0deg, #b40e0d, #b40e0d);
+  box-shadow: 0px 0px 10px 0px #f442b799;
+  /* border-radius: 20px; */
+}
+
+/* ---------- title bar ------------ */
+
+.headtop {
+  width: 340px;
+  height: 20%;
+  margin: auto;
+  background-color: rgb(154, 12, 12);
+  position: relative;
+  top: 0;
+}
+.headtop:before {
+  content: "";
+  width: 98%;
+  height: 92%;
+  margin: auto;
+  background-color: rgb(59, 8, 17);
+  display: block;
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 2px;
+  right: 2px;
+  z-index: -1;
+}
+.headtop,
+.headtop:before {
+  -webkit-clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  clip-path: polygon(7% 0%, 94% 0%, 100% 50%, 94% 100%, 7% 100%, 0% 55%);
+}
+
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.fade-in-left {
+  animation: fadeLeft 0.5s ease-in-out;
+}
+
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-right {
+  animation: fadeRight 0.5s ease-in-out;
+}
+
+/* ---------------- dashboard navbar ------------------- */
+
+.dashboardnav {
+  width: 90%;
+  height: 78px;
+  background-color: rgb(154, 12, 12);
+  position: relative;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  top: 0;
+}
+.dashboardnav:before {
+  content: "";
+  width: 99.5%;
+  height: 75px;
+  margin: auto;
+  background-color: rgb(59, 8, 17);
+  display: block;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 1px;
+  right: 1px;
+  z-index: -1;
+}
+.dashboardnav,
+.dashboardnav:before {
+  -webkit-clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  clip-path: polygon(3% 0%, 97% 0%, 100% 50%, 97% 100%, 3% 100%, 0% 55%);
+}
+
+/** Animation teen pattoi */
+
+.circle {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  border: 10px solid transparent;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  /* position: relative; */
+  animation: run 3s linear infinite;
+}
+
+@keyframes run {
+  0% {
+    transform: rotate(0deg);
+    border-top-color: #3498db;
+  }
+  25% {
+    transform: rotate(90deg);
+    border-top-color: #3498db;
+  }
+  50% {
+    transform: rotate(180deg);
+    /* border-top-color: #f39c12;  */
+    border-top-color: #3498db;
+  }
+  75% {
+    transform: rotate(270deg);
+    /* border-top-color: #27ae60;  */
+    border-top-color: #3498db;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-top-color: #3498db;
+  }
+}
+
+

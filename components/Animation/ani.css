@@ -1,0 +1,232 @@
+body {
+  background-color: #ccc;
+}
+
+.container {
+  /* border: 2px solid red; */
+  position: relative;
+  margin: 2em auto;
+  margin-top: -30px;
+  /* left: 1%; */
+  right: 6%;
+  text-align: center;
+  align-items: center;
+  width: 500px;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+}
+
+.card {
+  /* border: 5px solid yellow; */
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  height: 80px;
+  width: 50px;
+  margin: 0 5px 5px;
+  -webkit-transition: all 0.8s ease-out;
+  -moz-transition: all 0.8s ease-out;
+  -o-transition: all 0.8s ease-out;
+  transition: all 0.8s ease-out;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+}
+
+.card .front,
+.card .back {
+  /* border: 2px solid red; */
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.card .front {
+  background-color: #fff;
+  text-align: center;
+}
+
+.card .back {
+  background-color: #0a47c1;
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.flipped {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+/* Use numeric entities */
+
+.card .front::after {
+  display: block;
+  font-size: 2em;
+  margin: 30% 4% 2% 20%;
+}
+
+.card[data-suite="spade"],
+.card[data-suite="club"] {
+  color: black;
+}
+
+.card[data-suite="heart"],
+.card[data-suite="diamond"] {
+  color: red;
+}
+
+.card[data-suite="spade"] .front::after,
+.card[data-suite="spade"] .first::after,
+.card[data-suite="spade"] .last::before {
+  /* &spade; */
+  content: "\2660";
+}
+
+.card[data-suite="club"] .front::after,
+.card[data-suite="club"] .first::after,
+.card[data-suite="club"] .last::before {
+  /* &club; */
+  content: "\2663";
+}
+
+.card[data-suite="heart"] .front::after,
+.card[data-suite="heart"] .first::after,
+.card[data-suite="heart"] .last::before {
+  /* &heart; */
+  content: "\2665";
+}
+
+.card[data-suite="diamond"] .front::after,
+.card[data-suite="diamond"] .first::after,
+.card[data-suite="diamond"] .last::before {
+  /* &diams; */
+  content: "\2666";
+}
+
+/* Card values */
+
+.card .front::after,
+.card .front::before {
+  /* border: 2px solid blue; */
+  display: block;
+  position: absolute;
+}
+
+.card span:first-child {
+  top: 10px;
+  left: 10px;
+}
+
+.card span:last-child {
+  bottom: 10px;
+  right: 10px;
+}
+
+.card .last::after {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.card span {
+  display: block;
+  position: absolute;
+}
+
+.card span::before,
+.card span::after {
+  display: block;
+  line-height: 0.9em;
+}
+
+.card[data-value="A"] span:first-child::before,
+.card[data-value="A"] span:last-child::after {
+  content: "A";
+}
+
+.card[data-value="K"] span:first-child::before,
+.card[data-value="K"] span:last-child::after {
+  content: "K";
+}
+
+.card[data-value="Q"] span:first-child::before,
+.card[data-value="Q"] span:last-child::after {
+  content: "Q";
+}
+
+.card[data-value="J"] span:first-child::before,
+.card[data-value="J"] span:last-child::after {
+  content: "J";
+}
+
+.card[data-value="10"] span:first-child::before,
+.card[data-value="10"] span:last-child::after {
+  content: "10";
+}
+
+.card[data-value="9"] span:first-child::before,
+.card[data-value="9"] span:last-child::after {
+  content: "9";
+}
+
+.card[data-value="8"] span:first-child::before,
+.card[data-value="8"] span:last-child::after {
+  content: "8";
+}
+
+.card[data-value="7"] span:first-child::before,
+.card[data-value="7"] span:last-child::after {
+  content: "7";
+}
+
+.card[data-value="6"] span:first-child::before,
+.card[data-value="6"] span:last-child::after {
+  content: "6";
+}
+
+.card[data-value="5"] span:first-child::before,
+.card[data-value="5"] span:last-child::after {
+  content: "5";
+}
+
+.card[data-value="4"] span:first-child::before,
+.card[data-value="4"] span:last-child::after {
+  content: "4";
+}
+
+.card[data-value="2"] span:first-child::before,
+.card[data-value="2"] span:last-child::after {
+  content: "2";
+}
+
+.card[data-value="3"] span:first-child::before,
+.card[data-value="3"] span:last-child::after {
+  content: "3";
+}
+
+.card .back::before {
+  display: block;
+  content: " ";
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: transparent repeat left top;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+");
+}

@@ -1,0 +1,233 @@
+body {
+  background-color: #ccc;
+}
+
+.containerbottomtop {
+  /* border: 2px solid rgb(62, 165, 55); */
+  position: relative;
+  margin: auto;
+  margin-top: -110px;
+  right: 10%;
+  width: 500px;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+  transform: rotate(30deg);
+}
+
+.cardbottomtop {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  height: 60px;
+  width: 40px;
+  -webkit-transition: all 0.8s ease-out;
+  -moz-transition: all 0.8s ease-out;
+  -o-transition: all 0.8s ease-out;
+  transition: all 0.8s ease-out;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+}
+
+.cardbottomtop .front,
+.cardbottomtop .back {
+  /* border: 2px solid red; */
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.cardbottomtop .front {
+  background-color: #fff;
+  text-align: center;
+}
+
+.cardbottomtop .back {
+  background-color: #0a47c1;
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.flipped {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+/* Use numeric entities */
+
+.cardbottomtop .front::after {
+  display: block;
+  font-size: 1.2em;
+  position: relative;
+  top: 33%;
+  left: 20%;
+  /* margin: 1px; */
+  padding: 1px;
+  /* margin:30% 14% 1% 20%; */
+}
+
+.cardbottomtop[data-suite="spade"],
+.cardbottomtop[data-suite="club"] {
+  color: black;
+}
+
+.cardbottomtop[data-suite="heart"],
+.cardbottomtop[data-suite="diamond"] {
+  color: red;
+}
+
+.cardbottomtop[data-suite="spade"] .front::after,
+.cardbottomtop[data-suite="spade"] .first::after,
+.cardbottomtop[data-suite="spade"] .last::before {
+  /* &spade; */
+  content: "\2660";
+}
+
+.cardbottomtop[data-suite="club"] .front::after,
+.cardbottomtop[data-suite="club"] .first::after,
+.cardbottomtop[data-suite="club"] .last::before {
+  /* &club; */
+  content: "\2663";
+}
+
+.cardbottomtop[data-suite="heart"] .front::after,
+.cardbottomtop[data-suite="heart"] .first::after,
+.cardbottomtop[data-suite="heart"] .last::before {
+  /* &heart; */
+  content: "\2665";
+}
+
+.cardbottomtop[data-suite="diamond"] .front::after,
+.cardbottomtop[data-suite="diamond"] .first::after,
+.cardbottomtop[data-suite="diamond"] .last::before {
+  /* &diams; */
+  content: "\2666";
+}
+
+/* Card values */
+
+.cardbottomtop .front::after,
+.cardbottomtop .front::before {
+  /* border: 2px solid blue; */
+  display: block;
+  position: absolute;
+}
+
+.cardbottomtop span:first-child {
+  top: 10px;
+  left: 10px;
+}
+
+.cardbottomtop span:last-child {
+  bottom: 10px;
+  right: 10px;
+}
+
+.cardbottomtop .last::after {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.cardbottomtop span {
+  display: block;
+  position: absolute;
+}
+
+.cardbottomtop span::before,
+.cardbottomtop span::after {
+  display: block;
+  line-height: 0.9em;
+}
+
+.cardbottomtop[data-value="A"] span:first-child::before,
+.cardbottomtop[data-value="A"] span:last-child::after {
+  content: "A";
+}
+
+.cardbottomtop[data-value="K"] span:first-child::before,
+.cardbottomtop[data-value="K"] span:last-child::after {
+  content: "K";
+}
+
+.cardbottomtop[data-value="Q"] span:first-child::before,
+.cardbottomtop[data-value="Q"] span:last-child::after {
+  content: "Q";
+}
+
+.cardbottomtop[data-value="J"] span:first-child::before,
+.cardbottomtop[data-value="J"] span:last-child::after {
+  content: "J";
+}
+
+.cardbottomtop[data-value="10"] span:first-child::before,
+.cardbottomtop[data-value="10"] span:last-child::after {
+  content: "10";
+}
+
+.cardbottomtop[data-value="9"] span:first-child::before,
+.cardbottomtop[data-value="9"] span:last-child::after {
+  content: "9";
+}
+
+.cardbottomtop[data-value="8"] span:first-child::before,
+.cardbottomtop[data-value="8"] span:last-child::after {
+  content: "8";
+}
+
+.cardbottomtop[data-value="7"] span:first-child::before,
+.cardbottomtop[data-value="7"] span:last-child::after {
+  content: "7";
+}
+
+.cardbottomtop[data-value="6"] span:first-child::before,
+.cardbottomtop[data-value="6"] span:last-child::after {
+  content: "6";
+}
+
+.cardbottomtop[data-value="5"] span:first-child::before,
+.cardbottomtop[data-value="5"] span:last-child::after {
+  content: "5";
+}
+
+.cardbottomtop[data-value="4"] span:first-child::before,
+.cardbottomtop[data-value="4"] span:last-child::after {
+  content: "4";
+}
+
+.cardbottomtop[data-value="2"] span:first-child::before,
+.cardbottomtop[data-value="2"] span:last-child::after {
+  content: "2";
+}
+
+.cardbottomtop[data-value="3"] span:first-child::before,
+.cardbottomtop[data-value="3"] span:last-child::after {
+  content: "3";
+}
+
+.cardbottomtop .back::before {
+  display: block;
+  content: " ";
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: transparent repeat left top;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjNDAzYzNmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiMxZTI5MmQiPjwvcGF0aD4KPC9zdmc+");
+}
