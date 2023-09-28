@@ -2,7 +2,7 @@
 import Cardanimate from "@/components/Animation/Cardanimate";
 import SideShow from "@/components/modals/Sideshow";
 import "./ani.css";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import Cardlefttop from "@/components/Animation/Cardlefttop";
 import Cardleftmiddle from "@/components/Animation/Cardleftmiddle";
@@ -11,14 +11,14 @@ import Righttop from "@/components/Animation/Righttop";
 import Rightmiddle from "@/components/Animation/Rightmiddle";
 import Rightbottom from "@/components/Animation/Rightbottom";
 const socket = io("http://localhost:8000/", { transports: ["websocket"] });
-import { useDispatch, useSelector } from "react-redux";
 import Shareinvite from "@/components/modals/Shareinvite";
+import { useDispatch, useSelector } from "react-redux";
+import { GetloggedData } from "@/redux/AppReducer/Action";
 
 const LandscapePage = () => {
-  // const isPublicTable = useSelector((store) => store.AppReducer.isPublicTable);
-  // const privateTableKey = useSelector((store) => store.AppReducer.Privatecode);
-
-  const Loggeduser = JSON.parse(localStorage.getItem("Loggeduser"));
+  const dispatch = useDispatch();
+  const Loggeduser = useSelector((store) => store.AppReducer.Userloggeddata);
+  // const Loggeduser = JSON.parse(localStorage.getItem("Loggeduser"));
   console.log(Loggeduser);
   const [notification, setNotification] = useState(null);
   const [gameStartCounter, setGameStartCounter] = useState(null);
@@ -40,8 +40,7 @@ const LandscapePage = () => {
   const [chips, setChip] = useState(2499000);
   const [sideShowModal, setSideShowModal] = useState(false);
   const [winReason, setWinReason] = useState(null);
-  const [seeplayingcard, Setseeplayingcard] = useState(true);
-  const [cardsInfo, setCardsInfo] = useState(null);
+
   const handleDouble = () => {
     if (!hasDoubled) {
       setPreviousValue(value);
@@ -59,6 +58,7 @@ const LandscapePage = () => {
   };
 
   useEffect(() => {
+    GetloggedData(dispatch);
     // Check the screen orientation when the component mounts
     const checkOrientation = () => {
       setIsPortrait(window.innerWidth < window.innerHeight);
@@ -83,9 +83,9 @@ const LandscapePage = () => {
     }
   }, [isPortrait]);
 
-  const privateTableKey = +JSON.parse(localStorage.getItem("privateTableKey"));
-
+  let privateTableKey = null;
   useEffect(() => {
+    privateTableKey = +JSON.parse(localStorage.getItem("privateTableKey"));
     console.log(privateTableKey);
     console.log("connection start ");
     socket.on("connect", () => {
@@ -138,7 +138,7 @@ const LandscapePage = () => {
       });
       socket.on("cardsSeen", (data) => {
         console.log("cardsInfo", data.cardsInfo);
-        setCardsInfo(data.cardsInfo);
+
         console.log("players", data.players);
         setCardSee(true);
       });
@@ -215,7 +215,7 @@ const LandscapePage = () => {
         setIsBliend(true);
         console.log(data);
         setWinReason(null);
-        setCardsInfo(null);
+
         setNotification(null);
         const countdown = 5; // Replace with the timer value from your data
         setGameStartCounter(countdown);
@@ -419,7 +419,6 @@ const LandscapePage = () => {
 
   console.log(players, tableDetails, playerId);
   console.log(slotPlayerMap, playerSlotIndex, slotPlayerMap?.[playerSlotIndex]);
-  console.log(cardsInfo);
   console.log(Loggeduser?.avatar);
 
   return (
@@ -1017,7 +1016,7 @@ const LandscapePage = () => {
               </div>
             </div>
             <Cardanimate
-              cardsInfo={cardsInfo || players?.[playerId]?.cardSet?.cards}
+              cardsInfo={players?.[playerId]?.cardSet?.cards}
               seeplayingcard={players?.[playerId]?.seen}
             />
           </div>

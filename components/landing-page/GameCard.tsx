@@ -1,15 +1,16 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { GetloggedData } from "@/redux/AppReducer/Action";
+
 const GameCard = ({ card }: any) => {
 const router = useRouter()
-       const userDataString = localStorage.getItem("Loggeduser");
-         
-          if (userDataString !== null) {
-            const userData = JSON.parse(userDataString);
-            // Now you can use userData
-          } else {
-            // Handle the case where "Loggeduser" is not in localStorage or is null
-          }
+  const dispatch = useDispatch();
+  const userDataString = useSelector(
+    (store: any) => store.AppReducer.Userloggeddata
+  );
+
+  
 
         const handlenavigatedashboard =() =>{
            if(userDataString){

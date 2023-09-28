@@ -128,25 +128,30 @@ const JOinprivatetableFail = () => {
   };
 };
 
-
-export const playprivatetableSuccess = (payload:any) => {
+export const playprivatetableSuccess = (payload: any) => {
   return {
     type: types.PLAYPRIVATETABLESUCESS,
     payload,
   };
 };
 
+// interface Usertoken {
+//   token: string;
+// }
 
-
-interface Usertoken {
-  token: string;
-}
-
-const utoken = localStorage.getItem("token");
-const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
+// const utoken = localStorage.getItem("token");
+// const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
 
 export const GetloggedData = (dispatch: Dispatch) => {
+  interface Usertoken {
+    token: string;
+  }
+
+  const utoken = localStorage.getItem("token");
+  const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
+
   dispatch(getdatareq());
+
   return axios
     .get(`https://blue-seahorse-suit.cyclic.cloud/api/v1/user/get/profile`, {
       headers: {
@@ -167,6 +172,13 @@ export const GetloggedData = (dispatch: Dispatch) => {
 }
 
 export const GETADMINALLUSERDATA = (dispatch: Dispatch) => {
+  interface Usertoken {
+    token: string;
+  }
+
+  const utoken = localStorage.getItem("token");
+  const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
+
   dispatch(AdmingetuserReq());
   return axios
     .get(`https://blue-seahorse-suit.cyclic.cloud/api/v1/user/gets/`, {
@@ -242,10 +254,18 @@ export const ADMINDEBIT = (payload: any) => (dispatch: Dispatch) => {
 };
 
 export const CREATEPRIVATETABLE = (dispatch: Dispatch) => {
+  interface Usertoken {
+    token: string;
+  }
+
+  const utoken = localStorage.getItem("token");
+  const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
+
   dispatch(JOinprivatetableReq());
   return axios
     .post(
-      `https://blue-seahorse-suit.cyclic.cloud/api/v1/table/create/private`,{},
+      `https://blue-seahorse-suit.cyclic.cloud/api/v1/table/create/private`,
+      {},
       {
         headers: {
           "Content-Type": "application/json",
@@ -260,5 +280,3 @@ export const CREATEPRIVATETABLE = (dispatch: Dispatch) => {
       return dispatch(JOinprivatetableFail());
     });
 };
-
-

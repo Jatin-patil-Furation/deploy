@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { googleSignIn, setUpCaptcha } from "../../Google/Google";
 import Toast from "../notification/Toast";
 import { useDispatch } from "react-redux";
-import { ConfirmationResult } from "firebase/auth";
+
 import { Loginpost, Signuppost } from "@/redux/AuthReducer/Action";
 import Link from "next/link";
 
@@ -66,17 +66,17 @@ const PhoneNumber= () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [selectedCountryCode, setSelectedCountryCode] = useState<string>(
+  const [selectedCountryCode, setSelectedCountryCode] = useState(
     countryCodes[0].code
   );
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [activeotpindex, setActiveOtpindex] = useState<number>(0);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [adotp, SetadOTP] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [activeotpindex, setActiveOtpindex] = useState(0);
+  const inputRef = useRef(null);
+  const [adotp, SetadOTP] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [temp, setTemp] = useState(false);
   const [confirmationResult, setConfirmationResult] =
-    useState<MyConfirmationResult | null>(null); // Use ConfirmationResult type or null
+    useState(null); // Use ConfirmationResult type or null
   const [error, setError] = useState("");
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);

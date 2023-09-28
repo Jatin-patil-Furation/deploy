@@ -100,33 +100,31 @@ const updatedimageFail = () => {
   };
 };
 
- //  delete User Account 
- const  DeleteuserReq = () => {
-   return {
-     type: types.DELETEUSERREQ,
-   };
- };
- const Deleteuserucess = () => {
-   return {
-     type: types.DELETEUSERSUCESS,
-   };
- };
- const DeleteuserFail = () => {
-   return {
-     type: types.DELETENUSERFAILURE,
-   };
- };
+//  delete User Account
+const DeleteuserReq = () => {
+  return {
+    type: types.DELETEUSERREQ,
+  };
+};
+const Deleteuserucess = () => {
+  return {
+    type: types.DELETEUSERSUCESS,
+  };
+};
+const DeleteuserFail = () => {
+  return {
+    type: types.DELETENUSERFAILURE,
+  };
+};
 
-      interface Usertoken {
-        token: string;
-      }
+// interface Usertoken {
+//   token: string;
+// }
 
-      const utoken = localStorage.getItem("token");
-      const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
+// const utoken = localStorage.getItem("token");
+// const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
 
-
-
-// login request 
+// login request
 export const Loginpost = (payload: any) => (dispatch: Dispatch) => {
   dispatch(getLoginreq());
   return axios
@@ -139,8 +137,7 @@ export const Loginpost = (payload: any) => (dispatch: Dispatch) => {
     });
 };
 
-
-//  Signup request 
+//  Signup request
 
 export const Signuppost = (payload: any) => (dispatch: Dispatch) => {
   dispatch(getsignReq());
@@ -153,7 +150,6 @@ export const Signuppost = (payload: any) => (dispatch: Dispatch) => {
       dispatch(getsignFail());
     });
 };
-
 
 //  Get preSigned url
 
@@ -171,8 +167,7 @@ export const GetpresignedurlData = (param: any) => (dispatch: Dispatch) => {
     });
 };
 
-
-// Aws images  updated 
+// Aws images  updated
 
 export const UpdatedPost =
   (apiurl: any, payload: any) => (dispatch: Dispatch) => {
@@ -187,10 +182,16 @@ export const UpdatedPost =
       });
   };
 
-
-  //   User profile updated and images 
+//   User profile updated and images
 
 export const UpdatedImage = (payload: any) => (dispatch: Dispatch) => {
+  interface Usertoken {
+    token: string;
+  }
+
+  const utoken = localStorage.getItem("token");
+  const token: Usertoken | null = utoken ? JSON.parse(utoken) : null;
+
   dispatch(updatedpostimageReq());
   return axios
     .put(
@@ -211,19 +212,15 @@ export const UpdatedImage = (payload: any) => (dispatch: Dispatch) => {
     });
 };
 
-
- //  delete user  Account 
- export const DeleteuserAccount =
-   (id: any) => (dispatch: Dispatch) => {
-     dispatch(DeleteuserReq());
-     return axios
-       .put(
-         `https://blue-seahorse-suit.cyclic.cloud/api/v1/user/delete/${id}`,
-       )
-       .then((res) => {
-         return dispatch(Deleteuserucess());
-       })
-       .catch((e) => {
-         return dispatch(DeleteuserFail());
-       });
-   };
+//  delete user  Account
+export const DeleteuserAccount = (id: any) => (dispatch: Dispatch) => {
+  dispatch(DeleteuserReq());
+  return axios
+    .put(`https://blue-seahorse-suit.cyclic.cloud/api/v1/user/delete/${id}`)
+    .then((res) => {
+      return dispatch(Deleteuserucess());
+    })
+    .catch((e) => {
+      return dispatch(DeleteuserFail());
+    });
+};

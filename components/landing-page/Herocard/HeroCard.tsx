@@ -6,19 +6,16 @@ import AOS from "aos";
 import { useRouter } from "next/navigation";
 
 const HeroCard = () => {
-  useEffect(() => {
+  let userDataString:any =null;
+   useEffect(() => {
     AOS.init();
+    userDataString = localStorage.getItem("Loggeduser");
   }, []);
 
    const router = useRouter();
-   const userDataString = localStorage.getItem("Loggeduser");
+    
 
-   if (userDataString !== null) {
-     const userData = JSON.parse(userDataString);
-     // Now you can use userData
-   } else {
-     // Handle the case where "Loggeduser" is not in localStorage or is null
-   }
+   
 
    const handlenavigatedashboard = () => {
      if (userDataString) {

@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import Tablist from "../tablist/Tablist";
-import sikklogo from "../../../public/assets/users/sikkuserlogo.svg";
-import Acelocked from "../../../public/assets/users/Bottomborder.svg";
 
 import Image from "next/image";
 

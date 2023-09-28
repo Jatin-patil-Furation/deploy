@@ -6,7 +6,6 @@ import Games from "@/components/gameDashboard/Games";
 import Navbar from "@/components/gameDashboard/Navbar";
 import Overlay from "@/components/gameDashboard/Overlay";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logout from "@/components/modals/Logout";
 import BannedPlayers from "@/components/modals/BannedPlayers";
@@ -34,15 +33,12 @@ import { toast } from "react-toastify";
 import Shareinvite from "@/components/modals/Shareinvite";
 import CreateModel from "@/components/modals/CreateModel";
 import Joinmodal from "@/components/modals/Joinmodal";
-import ResetpasswordModal from "@/components/modals/ResetpasswordModal";
 
-const page = () => {
-  const [image, SetImage] = useState("");
+const Page = () => {
   const dispatch = useDispatch();
-  const [drawerOpen, setDrawerOpen] = useState < Boolean > false;
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [showJointable, SetshowJointable] = useState(false);
   const [Createprivatetable, SetCreateprivatetable] = useState(false);
-  const router = useRouter();
   const ToggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
@@ -71,7 +67,6 @@ const page = () => {
   const [showDeposit, setDeposit] = useState(false);
   const [typeDate, setTypeDate] = useState("text");
   const [joinprivatetable, Setjoinprivatetable] = useState(false);
-  const [resetpassword, Setresetpassword] = useState(false);
 
   const toggleDropDown = () => {
     setShowDropDown((prev) => !prev);
@@ -122,13 +117,7 @@ const page = () => {
     setDrawerOpen(false);
     setDeposit(true);
   };
-  const handleChangereset = () => {
-    setDrawerOpen(false);
-    Setresetpassword(true);
-  };
 
-  const dataAvatar = localStorage.getItem("avatar");
-  const Avatar = dataAvatar ? JSON.parse(dataAvatar) : null;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -220,8 +209,6 @@ const page = () => {
   };
 
   const Admintrue = getuserinfo?.isAdmin;
-  //  console.log("admin",Admintrue)
-  // ------------ last phase -----------
 
   const handleUpdateprofile = () => {
     const {
@@ -274,7 +261,7 @@ const page = () => {
   useEffect(() => {
     GetloggedData(dispatch)
       .then((res) => {
-        // console.log("resdatalogged",res);
+        console.log("resdatalogged",res);
       })
       .catch((err) => {
         console.log(err);
@@ -307,7 +294,6 @@ const page = () => {
                         <div className="image-container rounded-full">
                           <Image
                             src={getuserinfo?.avatar}
-                            // src={getuserinfo?.avatar}
                             alt="user avatar"
                             width={50}
                             height={50}
@@ -1662,4 +1648,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
