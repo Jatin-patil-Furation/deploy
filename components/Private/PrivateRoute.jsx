@@ -1,31 +1,19 @@
+'use client';
 
-  // import { useRouter } from "next/navigation"; 
-
-  // const PrivateRoute= ({ children }) => {
-  //   const router = useRouter()
-  //   const userdata = JSON.parse(localStorage.getItem("token"))
-  //   const Authenticate = userdata ? true :false;
-
-  //   return Authenticate ? children  : router.push("/login");
-  // };
-
-  // export default PrivateRoute;
-
-
-  import { useEffect } from 'react';
-import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const PrivateRoute = ({ children }) => {
   const router = useRouter();
-  const Authenticate = typeof window !== 'undefined' ? !!localStorage.getItem('token') : false;
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!Authenticate) {
+    if (!token) {
       router.push('/login');
     }
-  }, [Authenticate, router]);
+  }, [token, router]);
 
-  return Authenticate ? children : null;
+  return token ? children : null;
 };
 
 export default PrivateRoute;

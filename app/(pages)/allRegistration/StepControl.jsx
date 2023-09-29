@@ -1,6 +1,6 @@
 "use client";
 import { toast } from "react-toastify";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stepper from "./Stepper";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth/cordova";
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Signuppost } from "../../../redux/AuthReducer/Action";
 import Toast from "../notification/Toast";
 import { useRouter } from "next/navigation";
+import "./step.css"
 
 const countryCodes = [
   {
@@ -67,6 +68,8 @@ const StepControl = ({
   const usersignupdata = useSelector(
     (store) => store.AuthReducer.userdata
   );
+   const [registrationError, setRegistrationError] = useState(null);
+
   console.log("usersingupres", usersignupdata);
 
   const togglePasswordVisibility = () => {
@@ -139,16 +142,51 @@ const StepControl = ({
             
            })
           .catch((err) => {
-            console.log(err);
+           
             toast.error(err);
+              toast.error(err);
+              setFormData({
+                name: "",
+                email: "",
+                phone: "",
+                dateOfBirth: "",
+                gender: "",
+                address: "",
+                country: "",
+                city: "",
+                postalCode: "",
+                password: "",
+                confirmpassword: "",
+              });
+             console.log(err);
           });
       })
       .catch((err) => {
-        console.log(err);
+         toast.error("Email already in use");
+          setRegistrationError("Email already in use");
+         setFormData({
+           name: "",
+           email: "",
+           phone: "",
+           dateOfBirth: "",
+           gender: "",
+           address: "",
+           country: "",
+           city: "",
+           postalCode: "",
+           password: "",
+           confirmpassword: "",
+         });
         toast.error(err)
+        console.log(err);
       })
   };
-
+ useEffect(() => {
+ 
+   if (registrationError) {
+     SetCurrentStep(1);
+   }
+ }, [registrationError]);
   const handleNextClick = () => {
     if (isFormValidform()) {
       SetCurrentStep((prev) => prev + 1);
@@ -340,7 +378,7 @@ const StepControl = ({
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="w-[100%] px-1 py-[.7rem] md:py-[15px] mr-2 text-[#636363] bg-[#1E1E1E] border-red-800 p-2 rounded"
+                    className="w-[100%] px-1 py-[.7rem] md:py-[15px] mr-2 text-white  bg-[#1E1E1E] border-red-800 p-2 rounded"
                   >
                     <option value="Select">Select</option>
                     <option value="Male">Male</option>
@@ -378,9 +416,8 @@ const StepControl = ({
                   <select
                     name="country"
                     value={formData.country}
-                    // onChange={selectedcountry}
                     onChange={handleInputChange}
-                    className="w-[100%] text-[#636363] px-2 py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
+                    className="w-[100%] text-white  px-2 py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
                   >
                     <option value="Select">Select</option>
                     <option value="India">India</option>
@@ -399,7 +436,7 @@ const StepControl = ({
                     name="city"
                     onChange={handleInputChange}
                     className="w-[100%] px-2  text-sm
-             text-[#636363] py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
+             text-white  py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
                   >
                     <option value="Select">Select</option>
                     <option value="Agra">Agra</option>
@@ -440,7 +477,6 @@ const StepControl = ({
               >
                 <button
                   className={`text-white  py-1 px-2 md:font-semibold text-sm text-center `}
-                  // onClick={handleSecondNextClick}
                 >
                   One more step to go !
                 </button>
@@ -463,7 +499,7 @@ const StepControl = ({
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="current-password"
                 required
-                className="appearance-none  relative block
+                className="appearance-none password-input  relative block
            w-full px-6 py-2 md:py-4 bg-[#1E1E1E] 
               border-none
               text-white  p-2 rounded-lg
@@ -505,7 +541,7 @@ const StepControl = ({
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="current-password"
                 required
-                className="appearance-none  relative block
+                className="appearance-none  password-input relative block
            w-full px-6 py-2 md:py-4 bg-[#1E1E1E] 
               border-none
               text-white  p-2 rounded-lg

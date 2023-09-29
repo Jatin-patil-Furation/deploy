@@ -1,5 +1,4 @@
 "use client"
-import Navbar from '@/components/gameDashboard/Navbar'
 import Image from 'next/image'
 import React from 'react'
 

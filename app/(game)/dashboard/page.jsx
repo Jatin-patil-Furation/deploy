@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-"use client";
+"use client"
 
 import Banner from "@/components/gameDashboard/Banner";
 import Games from "@/components/gameDashboard/Games";
@@ -33,12 +32,14 @@ import { toast } from "react-toastify";
 import Shareinvite from "@/components/modals/Shareinvite";
 import CreateModel from "@/components/modals/CreateModel";
 import Joinmodal from "@/components/modals/Joinmodal";
+import ResetpasswordModal from "@/components/modals/ResetpasswordModal";
 
 const Page = () => {
   const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showJointable, SetshowJointable] = useState(false);
   const [Createprivatetable, SetCreateprivatetable] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const ToggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
@@ -67,6 +68,7 @@ const Page = () => {
   const [showDeposit, setDeposit] = useState(false);
   const [typeDate, setTypeDate] = useState("text");
   const [joinprivatetable, Setjoinprivatetable] = useState(false);
+  const [resetpassword, Setresetpassword] = useState(false);
 
   const toggleDropDown = () => {
     setShowDropDown((prev) => !prev);
@@ -117,6 +119,10 @@ const Page = () => {
     setDrawerOpen(false);
     setDeposit(true);
   };
+ const handleChangereset = () => {
+   setDrawerOpen(false);
+   Setresetpassword(true);
+ };
 
 
   const [formData, setFormData] = useState({
@@ -130,6 +136,7 @@ const Page = () => {
     city: "",
     postalCode: "",
   });
+
 
   useEffect(() => {
     if (getuserinfo) {
@@ -178,9 +185,9 @@ const Page = () => {
       const preurl = action?.payload?.presignedurl;
 
       const res = await UpdatedPost(preurl, selectedFile)(dispatch);
-      console.log("resawsupdated", res);
+     
       const avatar = action?.payload?.presignedurl.split("?")[0];
-      console.log("avatara", avatar);
+      // console.log("avatara", avatar);
       const payload = {
         avatar: avatar,
       };
@@ -200,10 +207,11 @@ const Page = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
-          toast.success(err);
+          toast.error(err);
+           console.log(err);
         });
     } catch (err) {
+      toast.error(err);
       console.error(err);
     }
   };
@@ -260,12 +268,7 @@ const Page = () => {
 
   useEffect(() => {
     GetloggedData(dispatch)
-      .then((res) => {
-        console.log("resdatalogged",res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      
   }, []);
 
   return (
@@ -578,6 +581,7 @@ const Page = () => {
                             Legal Notice
                           </a>
                           <a
+                            onClick={handleChangereset}
                             href="#"
                             className="border border-GreyDark border-b-GreyLight basis-[75%] w-full text-left pb-2 "
                           >
@@ -625,7 +629,6 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentName"
-                        id=""
                         placeholder="Tournament Name"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
@@ -637,17 +640,15 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentDescription"
-                        id=""
                         placeholder="Description"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="phone-no">Phone Number</label>
+                      <label htmlFor="phone">Phone Number</label>
                       <input
                         type="number"
                         name="phone"
-                        id=""
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         placeholder="13242314"
                       />
@@ -657,7 +658,6 @@ const Page = () => {
                         <label htmlFor="NoOfGames">No. of Games</label>
                         <select
                           name="NoOfGames"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none "
                         >
                           <option value="7">7 Games</option>
@@ -670,7 +670,6 @@ const Page = () => {
                         <label htmlFor="NoOfPlayers">No. of Players</label>
                         <select
                           name="NoOfPlayers"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="7">7 Players</option>
@@ -685,7 +684,6 @@ const Page = () => {
                         <label htmlFor="WinningAmount">Winning Amount</label>
                         <select
                           name="WinningAmount"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="2000">$2000</option>
@@ -698,7 +696,6 @@ const Page = () => {
                         <label htmlFor="EntryFee">Entry Fee</label>
                         <select
                           name="EntryFee"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="200">$200</option>
@@ -723,7 +720,6 @@ const Page = () => {
                       <div className=" border-red-700">
                         <label>
                           <Image
-                            // src={getuserinfo?.avatar}
                             src={getuserinfo?.avatar}
                             alt="avatar"
                             width={100}
@@ -763,7 +759,7 @@ const Page = () => {
                         />
                       </div>
                       <div className="flex flex-col ">
-                        <label htmlFor="phone-no">Phone Number</label>
+                        <label htmlFor="phone">Phone Number</label>
                         <input
                           type="number"
                           placeholder={getuserinfo?.phone?.toString()}
@@ -775,11 +771,10 @@ const Page = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <div className="flex flex-col basis-[45%] ">
-                          <label htmlFor="dob">DOB</label>
+                          <label htmlFor="dateOfBirth">DOB</label>
                           <input
                             type={typeDate}
                             name="dateOfBirth"
-                            id=""
                             onChange={handleInputChange}
                             onFocus={() => setTypeDate("date")}
                             onBlur={() => setTypeDate("text")}
@@ -794,7 +789,6 @@ const Page = () => {
                           <label htmlFor="gender">Gender</label>
                           <select
                             name="gender"
-                            id=""
                             onChange={handleInputChange}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                           >
@@ -811,7 +805,6 @@ const Page = () => {
                         <input
                           type="text"
                           name="address"
-                          id=""
                           onChange={handleInputChange}
                           value={formData?.address?.toString()}
                           placeholder={getuserinfo?.address?.toString()}
@@ -824,7 +817,6 @@ const Page = () => {
                           <input
                             type="text"
                             name="country"
-                            id=""
                             onChange={handleInputChange}
                             value={formData?.country?.toString()}
                             placeholder={getuserinfo?.country?.toString()}
@@ -836,7 +828,6 @@ const Page = () => {
                           <input
                             type="text"
                             name="city"
-                            id=""
                             value={formData?.city?.toString()}
                             onChange={handleInputChange}
                             placeholder={getuserinfo?.city?.toString()}
@@ -849,7 +840,6 @@ const Page = () => {
                         <input
                           type="number"
                           name="postalCode"
-                          id=""
                           onChange={handleInputChange}
                           value={formData?.postalCode?.toString()}
                           placeholder={getuserinfo?.postalCode?.toString()}
@@ -873,6 +863,7 @@ const Page = () => {
               </div>
             )}
           </section>
+
           {/* tab-laptop view section */}
 
           <section
@@ -1211,6 +1202,7 @@ const Page = () => {
                             </a>
                             <a
                               href="#"
+                              onClick={handleChangereset}
                               className="border border-GreyDark border-b-GreyLight basis-[75%] w-full text-left pb-2 "
                             >
                               Change Password
@@ -1266,7 +1258,6 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentName"
-                        id=""
                         placeholder="Tournament Name"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
@@ -1278,17 +1269,15 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentDescription"
-                        id=""
                         placeholder="Description"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="phone-no">Phone Number</label>
+                      <label htmlFor="phone">Phone Number</label>
                       <input
                         type="number"
                         name="phone"
-                        id=""
                         onChange={handleInputChange}
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         placeholder="13242314"
@@ -1299,7 +1288,6 @@ const Page = () => {
                         <label htmlFor="NoOfGames">No. of Games</label>
                         <select
                           name="NoOfGames"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none "
                         >
                           <option value="7">7 Games</option>
@@ -1312,7 +1300,6 @@ const Page = () => {
                         <label htmlFor="NoOfPlayers">No. of Players</label>
                         <select
                           name="NoOfPlayers"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="7">7 Players</option>
@@ -1327,7 +1314,6 @@ const Page = () => {
                         <label htmlFor="WinningAmount">Winning Amount</label>
                         <select
                           name="WinningAmount"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="2000">$2000</option>
@@ -1340,7 +1326,6 @@ const Page = () => {
                         <label htmlFor="EntryFee">Entry Fee</label>
                         <select
                           name="EntryFee"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="200">$200</option>
@@ -1416,7 +1401,7 @@ const Page = () => {
                           />
                         </div>
                         <div className="flex flex-col ">
-                          <label htmlFor="phone-no">Phone Number</label>
+                          <label htmlFor="phone">Phone Number</label>
                           <input
                             type="number"
                             placeholder={getuserinfo?.phone?.toString()}
@@ -1428,11 +1413,10 @@ const Page = () => {
                         </div>
                         <div className="flex justify-between items-center">
                           <div className="flex flex-col basis-[45%] ">
-                            <label htmlFor="dob">DOB</label>
+                            <label htmlFor="dateOfBirth">DOB</label>
                             <input
                               type="date"
                               name="dateOfBirth"
-                              id=""
                               onChange={handleInputChange}
                               value={formData?.dateOfBirth?.slice(0, 10)}
                               placeholder={getuserinfo?.dateOfBirth?.slice(
@@ -1446,7 +1430,6 @@ const Page = () => {
                             <label htmlFor="gender">Gender</label>
                             <select
                               name="gender"
-                              id=""
                               value={formData?.gender}
                               onChange={handleInputChange}
                               className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1465,7 +1448,6 @@ const Page = () => {
                             type="text"
                             name="address"
                             value={formData?.address}
-                            id=""
                             onChange={handleInputChange}
                             placeholder={getuserinfo?.address?.toString()}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1489,7 +1471,6 @@ const Page = () => {
                             <input
                               type="text"
                               name="city"
-                              id=""
                               value={formData?.city}
                               onChange={handleInputChange}
                               placeholder={getuserinfo?.city?.toString()}
@@ -1502,7 +1483,6 @@ const Page = () => {
                           <input
                             type="number"
                             name="postalCode"
-                            id=""
                             value={formData?.postalCode}
                             onChange={handleInputChange}
                             placeholder={getuserinfo?.postalCode?.toString()}
@@ -1639,6 +1619,16 @@ const Page = () => {
                 Setjoinprivatetable={Setjoinprivatetable}
                 joinprivatetable={joinprivatetable}
               />
+            )}
+
+            {resetpassword && (
+              <div>
+                <div
+                  className=" fixed inset-0 bg-black opacity-80 z-[50]     "
+                  onClick={ToggleDrawer}
+                ></div>
+                <ResetpasswordModal Setresetpassword={Setresetpassword} />
+              </div>
             )}
           </section>
         </main>

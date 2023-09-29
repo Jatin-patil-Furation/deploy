@@ -1,31 +1,28 @@
-import React, { useRef, useState } from "react";
+'use client';
+
+import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import Toast from "@/app/(pages)/notification/Toast";
-import googlelogo from "../../public/assets/users/gogle.svg";
-import Applelogo from "../../public/assets/users/Apple.svg";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/app/Firebase/firebase";
 
-interface ResetProps {
-  Setresetpassword: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const ResetpasswordModal: React.FC<ResetProps> = ({ Setresetpassword }) => {
-     const [email , SetEmail] = useState("")
-  const [resetSent, setResetSent] = useState<boolean>(false);
 
-  const handleSubmit = async (e:any) =>{
-      e.preventDefault();
-if (email.trim() !== "") {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    setResetSent(true);
-  } catch (error) {
-    console.error("Error sending password reset email", error);
-  }
-}
-  }
+const ResetpasswordModal = ({ Setresetpassword }) => {
+  const [email, SetEmail] = useState("");
+  const [resetSent, setResetSent] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (email.trim() !== "") {
+      try {
+        await sendPasswordResetEmail(auth, email);
+        setResetSent(true);
+      } catch (error) {
+        console.error("Error sending password reset email", error);
+      }
+    }
+  };
 
   return (
     <div>
@@ -54,12 +51,15 @@ if (email.trim() !== "") {
           </button>
 
           {resetSent ? (
-            <p  className="text-center py-4" > Password reset email sent. Check your inbox</p>
+            <p className="text-center py-4">
+              {" "}
+              Password reset email sent. Check your inbox
+            </p>
           ) : (
             <div className="w-[100%] px-2 py-4">
               <form onSubmit={handleSubmit}>
                 <label htmlFor="phone" className="text-white m-1   text-sm">
-                  Email 
+                  Email
                 </label>
                 <div className="flex justify-between py-1  border-red-700 items-center">
                   <input
@@ -72,12 +72,13 @@ if (email.trim() !== "") {
                   />
                 </div>
 
-        <div className=" flex items-center text-center w-[50%] m-auto py-4 border-yellow-800">
-          <button
-                 className="custom-gradient rounded-xl px-3 py-2 w-full  text-sm sm:text-base md:text-lg lg:text-xl
+                <div className=" flex items-center text-center w-[50%] m-auto py-4 border-yellow-800">
+                  <button
+                    className="custom-gradient rounded-xl px-3 py-2 w-full  text-sm sm:text-base md:text-lg lg:text-xl
                     hover:bg-gradient-to-t from-[#AD0B40] to-[#FF1917]  bg-opacity-15 hover:border-none transition-all duration-200 ease-in	delay-300
-        ">
-                     Reset password
+        "
+                  >
+                    Reset password
                   </button>
                 </div>
               </form>

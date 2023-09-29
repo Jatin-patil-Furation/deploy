@@ -16,16 +16,13 @@ import Toast from "../notification/Toast";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Loginpost } from "@/redux/AuthReducer/Action";
-import { Loader } from "lucide-react";
+
 
 const EmailLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { isLoading: boolean, isError } = useSelector(
-    (store) => store.AuthReducer
-  );
-  // console.log( "dataloding",isLoading,isError)
+ 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -75,7 +72,7 @@ const EmailLogin = () => {
           .then((res) => {
             console.log("resapi", res);
             if (
-              res?.type === "LOGINUSERSUCESS"){
+              res?.type === "LOGINUSERSUCESS" ){
               
               localStorage.setItem(
                 "Loggeduser",
@@ -102,6 +99,66 @@ const EmailLogin = () => {
       });
     console.log(formData);
   };
+
+   const handleGoogleLogin = async () => {
+     if (!isChecked) {
+       toast.success("min age 18 Check if you are 18");
+     } else {
+       try {
+         const user = await googleSignIn();
+         console.log(user);
+
+         const payload = {
+           name: user?.user?.displayName,
+           email: user?.user?.email,
+           avatar: user?.user?.photoURL,
+         };
+         //  console.log("sendbackd",payload)
+         const loginuser = {
+           email: user?.user?.email,
+         };
+         console.log("loginuser", loginuser);
+         Signuppost(payload)(dispatch)
+           .then((res) => {
+             console.log("userbackendsendresponse", res);
+
+             Loginpost(loginuser)(dispatch)
+               .then((res) => {
+                 console.log("res", res);
+                 if (
+                   res?.type === "LOGINUSERSUCESS" &&
+                   res?.payload.msg ===
+                     "login successful, please take the token and keep it safe"
+                 ) {
+                   localStorage.setItem(
+                     "Loggeduser",
+                     JSON.stringify(res?.payload?.resData)
+                   );
+                   localStorage.setItem(
+                     "token",
+                     JSON.stringify(res?.payload?.token)
+                   );
+                   toast.success("Signup Sucesssful");
+                   router.push("/dashboard");
+                 } else {
+                   toast.error("something went wrong");
+                 }
+               })
+               .catch((err) => {
+                 console.log(err);
+                 toast.error(err);
+               });
+           })
+           .catch((err) => {
+             console.log(err);
+             toast.error(err);
+           });
+       } catch (error) {
+         console.log(error);
+         toast.error(error);
+       }
+     }
+   };
 
   return (
     <div className="w-[100%] px-2">
@@ -179,17 +236,6 @@ const EmailLogin = () => {
         <Image src={orline} alt="orline" />
       </div>
 
-      <div className=" py-2">
-        <div className="py-2 bg-[#1E1E1E] flex items-center justify-center border-yellow-600 rounded-md">
-          <div className="py-1 px-2 flex justify-between gap-2 border-red-600">
-            <Image src={googlelogo} alt="googlelogo" />
-            <h2 className="text-white text-center m-auto text-sm">
-              {" "}
-              Continue with Google{" "}
-            </h2>
-          </div>
-        </div>
-      </div>
 
       <div className="py-2">
         <div className=" py-2  bg-[#1E1E1E] flex items-center justify-center border-yellow-600 rounded-md">
