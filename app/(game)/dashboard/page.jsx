@@ -216,7 +216,9 @@ const Page = () => {
     }
   };
 
-  const Admintrue = getuserinfo?.isAdmin;
+  // const Admintrue = getuserinfo?.isAdmin;
+
+   const Admintrue =true
 
   const handleUpdateprofile = () => {
     const {
@@ -311,7 +313,9 @@ const Page = () => {
                         </div>
                       </div>
                       <Image
-                        src={"/assets/drawer/edit.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/edit.svg"
+                        }
                         alt="user avatar"
                         width={50}
                         height={50}
@@ -343,7 +347,8 @@ const Page = () => {
                       </div>
                     </div>
 
-                    {/* menu items */}
+                    {/* menu items mobile view */}
+
                     {Admintrue && (
                       <button
                         className="px-4 py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
@@ -351,7 +356,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/users.svg"}
+                            src={
+                              "/assets/drawer/users.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -360,7 +367,9 @@ const Page = () => {
                           <p className="text-base">Account Management</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -374,9 +383,11 @@ const Page = () => {
                         className="px-4 py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
                         onClick={handleApprovedWinners}
                       >
-                        <div className="flex items-center gap-3 basis-[70%]">
+                        <div className=" border-red-700 flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/trophy.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/trophy.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -385,7 +396,9 @@ const Page = () => {
                           <p className="text-base">Approved Winners</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -400,7 +413,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/banned.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/banned.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -409,7 +424,9 @@ const Page = () => {
                           <p className="text-base">Banned Players</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -424,7 +441,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/create-tournament.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/create-tournament.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -433,7 +452,9 @@ const Page = () => {
                           <p className="text-base">Create Tournament</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -448,7 +469,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/eye.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/eye.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -457,7 +480,9 @@ const Page = () => {
                           <p className="text-base">View Games</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -472,7 +497,9 @@ const Page = () => {
                     >
                       <div className="flex items-center gap-3">
                         <Image
-                          src={"/assets/drawer/upload.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                          }
                           alt="deposit icon"
                           width={50}
                           height={50}
@@ -481,7 +508,9 @@ const Page = () => {
                         <p className="text-base">Deposit</p>
                       </div>
                       <Image
-                        src={"/assets/drawer/arrow-right.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                        }
                         alt="right arrow icon"
                         width={50}
                         height={50}
@@ -495,7 +524,9 @@ const Page = () => {
                     >
                       <div className="flex items-center gap-3">
                         <Image
-                          src={"/assets/drawer/upload.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                          }
                           alt="Withdraw icon"
                           width={50}
                           height={50}
@@ -504,7 +535,9 @@ const Page = () => {
                         <p className="text-base">Withdraw</p>
                       </div>
                       <Image
-                        src={"/assets/drawer/arrow-right.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                        }
                         alt="right arrow icon"
                         width={50}
                         height={50}
@@ -518,7 +551,9 @@ const Page = () => {
                     >
                       <div className="flex justify-start items-center gap-3 basis-[70%]">
                         <Image
-                          src={"/assets/drawer/clock.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/clock.svg"
+                          }
                           alt="Withdraw icon"
                           width={50}
                           height={50}
@@ -527,7 +562,9 @@ const Page = () => {
                         <p className="text-base">Transaction History</p>
                       </div>
                       <Image
-                        src={"/assets/drawer/arrow-right.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                        }
                         alt="right arrow icon"
                         width={50}
                         height={50}
@@ -542,7 +579,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3">
                           <Image
-                            src={"/assets/drawer/settings.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/settings.svg"
+                            }
                             alt="Withdraw icon"
                             width={50}
                             height={50}
@@ -551,7 +590,9 @@ const Page = () => {
                           <p className="text-base">Settings</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/chevron-down.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/chevron-down.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -614,7 +655,9 @@ const Page = () => {
                     <h2>Create Tournament</h2>
                     <div className="h-[30vh] bg-GreyDark   relative w-[90%] mx-auto">
                       <Image
-                        src={"/assets/drawer/camera.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/camera.svg"
+                        }
                         alt="camera"
                         width={50}
                         height={50}
@@ -713,9 +756,9 @@ const Page = () => {
               </div>
             ) : showUpdateProfile ? (
               <div className="bg-Background px-2 md:hidden">
-                <div className="bg-Background text-white pt-20 w-[90%] overflow-y-hidden">
-                  <div className="flex flex-col items-center">
-                    <div className="flex flex-col items-center basis-[90%]">
+                <div className="bg-Background  text-white pt-20 w-[99%] m-auto overflow-y-hidden">
+                  <div className="flex mt-10   border-yellow-800 flex-col items-center">
+                    <div className="flex flex-col items-center basis-[95%]">
                       <h2>Edit Profile</h2>
                       <div className=" border-red-700">
                         <label>
@@ -732,10 +775,10 @@ const Page = () => {
                             onChange={handleImageChange}
                           />
                         </label>
-                        <p className="text-Secondary">Change Avatar</p>
+                        <p className=" text-center text-Secondary">Change Avatar</p>
                       </div>
                     </div>
-                    <div className="user-edit  space-y-4 w-[90%] basis-[90%]">
+                    <div className="user-edit  space-y-4 w-[95%] m-auto basis-[90%]">
                       <div className="flex flex-col">
                         <label htmlFor="name">Name</label>
                         <input
@@ -769,7 +812,7 @@ const Page = () => {
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         />
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between gap-5 items-center">
                         <div className="flex flex-col basis-[45%] ">
                           <label htmlFor="dateOfBirth">DOB</label>
                           <input
@@ -892,7 +935,9 @@ const Page = () => {
                   <div>
                     <div className=" w-full flex justify-end items-end">
                       <Image
-                        src={"/assets/other/x.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/other/x.svg"
+                        }
                         alt="close-icon"
                         className="w-[10%]"
                         width={50}
@@ -921,7 +966,9 @@ const Page = () => {
                           </div>
                         </div>
                         <Image
-                          src={"/assets/drawer/edit.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/edit.svg"
+                          }
                           alt="user avatar"
                           width={50}
                           height={50}
@@ -974,7 +1021,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/trophy.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/trophy.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -983,7 +1032,9 @@ const Page = () => {
                             <p className="text-base">Account Mangement</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -998,7 +1049,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/users.svg"}
+                              src={
+                                "/assets/drawer/users.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1007,7 +1060,9 @@ const Page = () => {
                             <p className="text-base">Approved Winners</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1022,7 +1077,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/banned.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/banned.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1031,7 +1088,9 @@ const Page = () => {
                             <p className="text-base">Banned Players</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1042,11 +1101,13 @@ const Page = () => {
                       {Admintrue && (
                         <button
                           onClick={handleCreateTournament}
-                          className="px-4 py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
+                          className="px-4   py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/create-tournament.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/create-tournament.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1055,7 +1116,9 @@ const Page = () => {
                             <p className="text-base">Create Tournament</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1070,7 +1133,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/eye.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/eye.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1079,7 +1144,9 @@ const Page = () => {
                             <p className="text-base">View Games</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1095,7 +1162,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3">
                           <Image
-                            src={"/assets/drawer/upload.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -1104,7 +1173,9 @@ const Page = () => {
                           <p className="text-base">Deposit</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -1117,7 +1188,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3">
                           <Image
-                            src={"/assets/drawer/upload.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                            }
                             alt="Withdraw icon"
                             width={50}
                             height={50}
@@ -1126,7 +1199,9 @@ const Page = () => {
                           <p className="text-base">Withdraw</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -1139,7 +1214,9 @@ const Page = () => {
                       >
                         <div className="flex justify-start items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/clock.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/clock.svg"
+                            }
                             alt="Withdraw icon"
                             width={50}
                             height={50}
@@ -1148,7 +1225,9 @@ const Page = () => {
                           <p className="text-base">Transaction History</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -1162,7 +1241,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3">
                             <Image
-                              src={"/assets/drawer/settings.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/settings.svg"
+                              }
                               alt="Withdraw icon"
                               width={50}
                               height={50}
@@ -1171,7 +1252,9 @@ const Page = () => {
                             <p className="text-base">Settings</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/chevron-down.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/chevron-down.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1231,7 +1314,9 @@ const Page = () => {
                 <div className="flex flex-col items-center">
                   <div>
                     <Image
-                      src={"/assets/other/x.svg"}
+                      src={
+                        "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/other/x.svg"
+                      }
                       alt="close tag"
                       width={50}
                       height={50}
@@ -1239,11 +1324,13 @@ const Page = () => {
                       onClick={() => setCreateTournament(false)}
                     />
                   </div>
-                  <div className="flex flex-col items-center w-full gap-1 mt-5">
+                  <div className="flex  border-red-600 flex-col items-center w-full gap-1 mt-5">
                     <h2>Create Tournament</h2>
                     <div className="h-[30vh] bg-GreyDark   relative w-[90%] mx-auto">
                       <Image
-                        src={"/assets/drawer/camera.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/camera.svg"
+                        }
                         alt="camera"
                         width={50}
                         height={50}
@@ -1347,7 +1434,9 @@ const Page = () => {
                   <div className=" text-white pt-20 overflow-y-hidden relative">
                     <div>
                       <Image
-                        src={"/assets/other/x.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/other/x.svg"
+                        }
                         alt="close tag"
                         width={50}
                         height={50}
@@ -1355,13 +1444,13 @@ const Page = () => {
                         onClick={() => setUpdateProfile(false)}
                       />
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex  border-red-700 flex-col items-center">
                       <div className="flex flex-col items-center basis-[90%]">
                         <h2>Edit Profile</h2>
                         <div>
                           <label>
                             <Image
-                              // src={getuserinfo?.avatar}
+                              
                               src={getuserinfo?.avatar}
                               alt="avatar"
                               width={100}
@@ -1374,7 +1463,7 @@ const Page = () => {
                               onChange={handleImageChange}
                             />
                           </label>
-                          <p className="text-Secondary">Change Avatar</p>
+                          <p className="text-center text-Secondary">Change Avatar</p>
                         </div>
                       </div>
                       <div className="user-edit   space-y-4 w-[90%] basis-[90%]">

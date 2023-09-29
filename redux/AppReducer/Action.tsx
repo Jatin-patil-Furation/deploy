@@ -33,7 +33,7 @@ const AdmingetuserReq = () => {
 
 const AdmingetuserSuccess = (payload: AxiosResponse<any, any>) => {
   return {
-    type: types.ADMINUSERDATASUCESS, // Assuming you have a constant named CREATE_TOURNAMENT_SUCCESS defined in a file named 'types'.
+    type: types.ADMINUSERDATASUCESS, 
     payload,
   };
 };
