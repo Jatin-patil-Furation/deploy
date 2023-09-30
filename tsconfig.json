@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     "app/(game)/teen-patti-mobile",
     "redux/store.ts"
-, "app/teen-patti/page.jsx", "app/(game)/dashboard/page.jsx", "app/(pages)/allRegistration/StepControl.jsx", "app/(pages)/EmailLogin/EmailLogin.jsx", "app/(pages)/phonenumber/PhoneNumber.jsx", "components/Animation/Cardleftbottom.jsx", "components/Animation/Cardlefttop.jsx", "components/gameDashboard/Games.jsx", "components/modals/CreateModel.jsx"  ],
+, "app/teen-patti/page.jsx", "app/(game)/dashboard/page.jsx", "app/(pages)/allRegistration/StepControl.jsx", "app/(pages)/EmailLogin/EmailLogin.jsx", "app/(pages)/phonenumber/PhoneNumber.jsx", "components/Animation/Cardleftbottom.jsx", "components/Animation/Cardlefttop.jsx", "components/gameDashboard/Games.jsx", "components/modals/CreateModel.jsx", "components/modals/ResetpasswordModal.jsx", "app/(game)/layout.tsx"  ],
   "exclude": ["node_modules"]
 }

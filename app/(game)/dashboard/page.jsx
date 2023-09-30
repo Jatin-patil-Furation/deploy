@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-"use client";
+"use client"
 
 import Banner from "@/components/gameDashboard/Banner";
 import Games from "@/components/gameDashboard/Games";
@@ -33,12 +32,16 @@ import { toast } from "react-toastify";
 import Shareinvite from "@/components/modals/Shareinvite";
 import CreateModel from "@/components/modals/CreateModel";
 import Joinmodal from "@/components/modals/Joinmodal";
+import ResetpasswordModal from "@/components/modals/ResetpasswordModal";
 
 const Page = () => {
   const dispatch = useDispatch();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showJointable, SetshowJointable] = useState(false);
   const [Createprivatetable, SetCreateprivatetable] = useState(false);
+   const [image, SetImage] = useState("");
+  const [isClient, setIsClient] = useState(false);
+     const [loading, setLoading] = useState(false);
   const ToggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
@@ -67,6 +70,7 @@ const Page = () => {
   const [showDeposit, setDeposit] = useState(false);
   const [typeDate, setTypeDate] = useState("text");
   const [joinprivatetable, Setjoinprivatetable] = useState(false);
+  const [resetpassword, Setresetpassword] = useState(false);
 
   const toggleDropDown = () => {
     setShowDropDown((prev) => !prev);
@@ -117,6 +121,10 @@ const Page = () => {
     setDrawerOpen(false);
     setDeposit(true);
   };
+ const handleChangereset = () => {
+   setDrawerOpen(false);
+   Setresetpassword(true);
+ };
 
 
   const [formData, setFormData] = useState({
@@ -130,6 +138,7 @@ const Page = () => {
     city: "",
     postalCode: "",
   });
+
 
   useEffect(() => {
     if (getuserinfo) {
@@ -162,7 +171,6 @@ const Page = () => {
       });
     }
   };
-
   const handleImageChange = async (e) => {
     try {
       const selectedFile = e.target.files && e.target.files[0];
@@ -173,7 +181,8 @@ const Page = () => {
       } else {
         SetImage(selectedFile);
       }
-      const filenam = selectedFile.name.split(".")[0];
+      // const filenam = selectedFile.name.split(".")[0];
+      const filenam = selectedFile.name;
       const action = await GetpresignedurlData(filenam)(dispatch);
       const preurl = action?.payload?.presignedurl;
 
@@ -210,7 +219,10 @@ const Page = () => {
 
   const Admintrue = getuserinfo?.isAdmin;
 
+  //  const Admintrue =true
+
   const handleUpdateprofile = () => {
+    setLoading(true)
     const {
       dateOfBirth,
       name,
@@ -250,22 +262,19 @@ const Page = () => {
         console.log(res);
         if (res.type === "USEREDIT_IMAGE_SUCESS") {
           toast.success("Updated data sucessfully");
+           setLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
         toast.success(err);
+         setLoading(false);
       });
   };
 
   useEffect(() => {
     GetloggedData(dispatch)
-      .then((res) => {
-        console.log("resdatalogged",res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      
   }, []);
 
   return (
@@ -308,7 +317,9 @@ const Page = () => {
                         </div>
                       </div>
                       <Image
-                        src={"/assets/drawer/edit.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/edit.svg"
+                        }
                         alt="user avatar"
                         width={50}
                         height={50}
@@ -340,7 +351,8 @@ const Page = () => {
                       </div>
                     </div>
 
-                    {/* menu items */}
+                    {/* menu items mobile view */}
+
                     {Admintrue && (
                       <button
                         className="px-4 py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
@@ -357,7 +369,9 @@ const Page = () => {
                           <p className="text-base">Account Management</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -371,9 +385,11 @@ const Page = () => {
                         className="px-4 py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
                         onClick={handleApprovedWinners}
                       >
-                        <div className="flex items-center gap-3 basis-[70%]">
+                        <div className=" border-red-700 flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/trophy.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/trophy.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -382,7 +398,9 @@ const Page = () => {
                           <p className="text-base">Approved Winners</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -397,7 +415,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/banned.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/banned.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -406,7 +426,9 @@ const Page = () => {
                           <p className="text-base">Banned Players</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -421,7 +443,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/create-tournament.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/create-tournament.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -430,7 +454,9 @@ const Page = () => {
                           <p className="text-base">Create Tournament</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -445,7 +471,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/eye.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/eye.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -454,7 +482,9 @@ const Page = () => {
                           <p className="text-base">View Games</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -469,7 +499,9 @@ const Page = () => {
                     >
                       <div className="flex items-center gap-3">
                         <Image
-                          src={"/assets/drawer/upload.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                          }
                           alt="deposit icon"
                           width={50}
                           height={50}
@@ -478,7 +510,9 @@ const Page = () => {
                         <p className="text-base">Deposit</p>
                       </div>
                       <Image
-                        src={"/assets/drawer/arrow-right.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                        }
                         alt="right arrow icon"
                         width={50}
                         height={50}
@@ -492,7 +526,9 @@ const Page = () => {
                     >
                       <div className="flex items-center gap-3">
                         <Image
-                          src={"/assets/drawer/upload.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                          }
                           alt="Withdraw icon"
                           width={50}
                           height={50}
@@ -501,7 +537,9 @@ const Page = () => {
                         <p className="text-base">Withdraw</p>
                       </div>
                       <Image
-                        src={"/assets/drawer/arrow-right.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                        }
                         alt="right arrow icon"
                         width={50}
                         height={50}
@@ -515,7 +553,9 @@ const Page = () => {
                     >
                       <div className="flex justify-start items-center gap-3 basis-[70%]">
                         <Image
-                          src={"/assets/drawer/clock.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/clock.svg"
+                          }
                           alt="Withdraw icon"
                           width={50}
                           height={50}
@@ -524,7 +564,9 @@ const Page = () => {
                         <p className="text-base">Transaction History</p>
                       </div>
                       <Image
-                        src={"/assets/drawer/arrow-right.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                        }
                         alt="right arrow icon"
                         width={50}
                         height={50}
@@ -539,7 +581,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3">
                           <Image
-                            src={"/assets/drawer/settings.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/settings.svg"
+                            }
                             alt="Withdraw icon"
                             width={50}
                             height={50}
@@ -548,7 +592,9 @@ const Page = () => {
                           <p className="text-base">Settings</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/chevron-down.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/chevron-down.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -578,6 +624,7 @@ const Page = () => {
                             Legal Notice
                           </a>
                           <a
+                            onClick={handleChangereset}
                             href="#"
                             className="border border-GreyDark border-b-GreyLight basis-[75%] w-full text-left pb-2 "
                           >
@@ -610,7 +657,9 @@ const Page = () => {
                     <h2>Create Tournament</h2>
                     <div className="h-[30vh] bg-GreyDark   relative w-[90%] mx-auto">
                       <Image
-                        src={"/assets/drawer/camera.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/camera.svg"
+                        }
                         alt="camera"
                         width={50}
                         height={50}
@@ -625,7 +674,6 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentName"
-                        id=""
                         placeholder="Tournament Name"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
@@ -637,17 +685,15 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentDescription"
-                        id=""
                         placeholder="Description"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="phone-no">Phone Number</label>
+                      <label htmlFor="phone">Phone Number</label>
                       <input
                         type="number"
                         name="phone"
-                        id=""
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         placeholder="13242314"
                       />
@@ -657,7 +703,6 @@ const Page = () => {
                         <label htmlFor="NoOfGames">No. of Games</label>
                         <select
                           name="NoOfGames"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none "
                         >
                           <option value="7">7 Games</option>
@@ -670,7 +715,6 @@ const Page = () => {
                         <label htmlFor="NoOfPlayers">No. of Players</label>
                         <select
                           name="NoOfPlayers"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="7">7 Players</option>
@@ -685,7 +729,6 @@ const Page = () => {
                         <label htmlFor="WinningAmount">Winning Amount</label>
                         <select
                           name="WinningAmount"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="2000">$2000</option>
@@ -698,7 +741,6 @@ const Page = () => {
                         <label htmlFor="EntryFee">Entry Fee</label>
                         <select
                           name="EntryFee"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="200">$200</option>
@@ -716,14 +758,13 @@ const Page = () => {
               </div>
             ) : showUpdateProfile ? (
               <div className="bg-Background px-2 md:hidden">
-                <div className="bg-Background text-white pt-20 w-[90%] overflow-y-hidden">
-                  <div className="flex flex-col items-center">
-                    <div className="flex flex-col items-center basis-[90%]">
+                <div className="bg-Background  text-white pt-20 w-[99%] m-auto overflow-y-hidden">
+                  <div className="flex mt-10   border-yellow-800 flex-col items-center">
+                    <div className="flex flex-col items-center basis-[95%]">
                       <h2>Edit Profile</h2>
                       <div className=" border-red-700">
                         <label>
                           <Image
-                            // src={getuserinfo?.avatar}
                             src={getuserinfo?.avatar}
                             alt="avatar"
                             width={100}
@@ -736,10 +777,12 @@ const Page = () => {
                             onChange={handleImageChange}
                           />
                         </label>
-                        <p className="text-Secondary">Change Avatar</p>
+                        <p className=" text-center text-Secondary">
+                          Change Avatar
+                        </p>
                       </div>
                     </div>
-                    <div className="user-edit  space-y-4 w-[90%] basis-[90%]">
+                    <div className="user-edit  space-y-4 w-[95%] m-auto basis-[90%]">
                       <div className="flex flex-col">
                         <label htmlFor="name">Name</label>
                         <input
@@ -757,29 +800,28 @@ const Page = () => {
                           type="email"
                           placeholder={getuserinfo?.email}
                           name="email"
-                          value={formData?.email}
+                          value={getuserinfo?.email}
                           onChange={handleInputChange}
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         />
                       </div>
                       <div className="flex flex-col ">
-                        <label htmlFor="phone-no">Phone Number</label>
+                        <label htmlFor="phone">Phone Number</label>
                         <input
                           type="number"
                           placeholder={getuserinfo?.phone?.toString()}
                           name="phone"
-                          value={formData?.phone?.toString()}
+                          value={getuserinfo?.phone?.toString()}
                           onChange={handleInputChange}
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         />
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between gap-5 items-center">
                         <div className="flex flex-col basis-[45%] ">
-                          <label htmlFor="dob">DOB</label>
+                          <label htmlFor="dateOfBirth">DOB</label>
                           <input
                             type={typeDate}
                             name="dateOfBirth"
-                            id=""
                             onChange={handleInputChange}
                             onFocus={() => setTypeDate("date")}
                             onBlur={() => setTypeDate("text")}
@@ -794,7 +836,6 @@ const Page = () => {
                           <label htmlFor="gender">Gender</label>
                           <select
                             name="gender"
-                            id=""
                             onChange={handleInputChange}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                           >
@@ -811,7 +852,6 @@ const Page = () => {
                         <input
                           type="text"
                           name="address"
-                          id=""
                           onChange={handleInputChange}
                           value={formData?.address?.toString()}
                           placeholder={getuserinfo?.address?.toString()}
@@ -824,7 +864,6 @@ const Page = () => {
                           <input
                             type="text"
                             name="country"
-                            id=""
                             onChange={handleInputChange}
                             value={formData?.country?.toString()}
                             placeholder={getuserinfo?.country?.toString()}
@@ -836,7 +875,6 @@ const Page = () => {
                           <input
                             type="text"
                             name="city"
-                            id=""
                             value={formData?.city?.toString()}
                             onChange={handleInputChange}
                             placeholder={getuserinfo?.city?.toString()}
@@ -849,7 +887,6 @@ const Page = () => {
                         <input
                           type="number"
                           name="postalCode"
-                          id=""
                           onChange={handleInputChange}
                           value={formData?.postalCode?.toString()}
                           placeholder={getuserinfo?.postalCode?.toString()}
@@ -861,7 +898,18 @@ const Page = () => {
                       onClick={handleUpdateprofile}
                       className="custom-gradient px-3 py-4 w-[90%] mx-auto my-3"
                     >
-                      update
+                      {loading ? (
+                        <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                          <Image
+                            src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                            alt="loader"
+                            width={200}
+                            height={100}
+                          />
+                        </div>
+                      ) : (
+                        "update"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -873,6 +921,7 @@ const Page = () => {
               </div>
             )}
           </section>
+
           {/* tab-laptop view section */}
 
           <section
@@ -901,7 +950,9 @@ const Page = () => {
                   <div>
                     <div className=" w-full flex justify-end items-end">
                       <Image
-                        src={"/assets/other/x.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/other/x.svg"
+                        }
                         alt="close-icon"
                         className="w-[10%]"
                         width={50}
@@ -930,7 +981,9 @@ const Page = () => {
                           </div>
                         </div>
                         <Image
-                          src={"/assets/drawer/edit.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/edit.svg"
+                          }
                           alt="user avatar"
                           width={50}
                           height={50}
@@ -983,7 +1036,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/trophy.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/trophy.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -992,7 +1047,9 @@ const Page = () => {
                             <p className="text-base">Account Mangement</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1016,7 +1073,9 @@ const Page = () => {
                             <p className="text-base">Approved Winners</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1031,7 +1090,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/banned.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/banned.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1040,7 +1101,9 @@ const Page = () => {
                             <p className="text-base">Banned Players</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1051,11 +1114,13 @@ const Page = () => {
                       {Admintrue && (
                         <button
                           onClick={handleCreateTournament}
-                          className="px-4 py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
+                          className="px-4   py-3 flex items-center rounded-sm justify-between  relative bg-GreyDark w-full"
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/create-tournament.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/create-tournament.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1064,7 +1129,9 @@ const Page = () => {
                             <p className="text-base">Create Tournament</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1079,7 +1146,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={"/assets/drawer/eye.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/eye.svg"
+                              }
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1088,7 +1157,9 @@ const Page = () => {
                             <p className="text-base">View Games</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/arrow-right.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1104,7 +1175,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3">
                           <Image
-                            src={"/assets/drawer/upload.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                            }
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -1113,7 +1186,9 @@ const Page = () => {
                           <p className="text-base">Deposit</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -1126,7 +1201,9 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3">
                           <Image
-                            src={"/assets/drawer/upload.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/upload.svg"
+                            }
                             alt="Withdraw icon"
                             width={50}
                             height={50}
@@ -1135,7 +1212,9 @@ const Page = () => {
                           <p className="text-base">Withdraw</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -1148,7 +1227,9 @@ const Page = () => {
                       >
                         <div className="flex justify-start items-center gap-3 basis-[70%]">
                           <Image
-                            src={"/assets/drawer/clock.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/clock.svg"
+                            }
                             alt="Withdraw icon"
                             width={50}
                             height={50}
@@ -1157,7 +1238,9 @@ const Page = () => {
                           <p className="text-base">Transaction History</p>
                         </div>
                         <Image
-                          src={"/assets/drawer/arrow-right.svg"}
+                          src={
+                            "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/arrow-right.svg"
+                          }
                           alt="right arrow icon"
                           width={50}
                           height={50}
@@ -1171,7 +1254,9 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3">
                             <Image
-                              src={"/assets/drawer/settings.svg"}
+                              src={
+                                "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/settings.svg"
+                              }
                               alt="Withdraw icon"
                               width={50}
                               height={50}
@@ -1180,7 +1265,9 @@ const Page = () => {
                             <p className="text-base">Settings</p>
                           </div>
                           <Image
-                            src={"/assets/drawer/chevron-down.svg"}
+                            src={
+                              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/chevron-down.svg"
+                            }
                             alt="right arrow icon"
                             width={50}
                             height={50}
@@ -1211,6 +1298,7 @@ const Page = () => {
                             </a>
                             <a
                               href="#"
+                              onClick={handleChangereset}
                               className="border border-GreyDark border-b-GreyLight basis-[75%] w-full text-left pb-2 "
                             >
                               Change Password
@@ -1239,7 +1327,9 @@ const Page = () => {
                 <div className="flex flex-col items-center">
                   <div>
                     <Image
-                      src={"/assets/other/x.svg"}
+                      src={
+                        "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/other/x.svg"
+                      }
                       alt="close tag"
                       width={50}
                       height={50}
@@ -1247,11 +1337,13 @@ const Page = () => {
                       onClick={() => setCreateTournament(false)}
                     />
                   </div>
-                  <div className="flex flex-col items-center w-full gap-1 mt-5">
+                  <div className="flex  border-red-600 flex-col items-center w-full gap-1 mt-5">
                     <h2>Create Tournament</h2>
                     <div className="h-[30vh] bg-GreyDark   relative w-[90%] mx-auto">
                       <Image
-                        src={"/assets/drawer/camera.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/drawer/camera.svg"
+                        }
                         alt="camera"
                         width={50}
                         height={50}
@@ -1266,7 +1358,6 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentName"
-                        id=""
                         placeholder="Tournament Name"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
@@ -1278,17 +1369,15 @@ const Page = () => {
                       <input
                         type="text"
                         name="TournamentDescription"
-                        id=""
                         placeholder="Description"
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label htmlFor="phone-no">Phone Number</label>
+                      <label htmlFor="phone">Phone Number</label>
                       <input
                         type="number"
                         name="phone"
-                        id=""
                         onChange={handleInputChange}
                         className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         placeholder="13242314"
@@ -1299,7 +1388,6 @@ const Page = () => {
                         <label htmlFor="NoOfGames">No. of Games</label>
                         <select
                           name="NoOfGames"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none "
                         >
                           <option value="7">7 Games</option>
@@ -1312,7 +1400,6 @@ const Page = () => {
                         <label htmlFor="NoOfPlayers">No. of Players</label>
                         <select
                           name="NoOfPlayers"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="7">7 Players</option>
@@ -1327,7 +1414,6 @@ const Page = () => {
                         <label htmlFor="WinningAmount">Winning Amount</label>
                         <select
                           name="WinningAmount"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="2000">$2000</option>
@@ -1340,7 +1426,6 @@ const Page = () => {
                         <label htmlFor="EntryFee">Entry Fee</label>
                         <select
                           name="EntryFee"
-                          id=""
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         >
                           <option value="200">$200</option>
@@ -1362,7 +1447,9 @@ const Page = () => {
                   <div className=" text-white pt-20 overflow-y-hidden relative">
                     <div>
                       <Image
-                        src={"/assets/other/x.svg"}
+                        src={
+                          "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/other/x.svg"
+                        }
                         alt="close tag"
                         width={50}
                         height={50}
@@ -1370,13 +1457,12 @@ const Page = () => {
                         onClick={() => setUpdateProfile(false)}
                       />
                     </div>
-                    <div className="flex flex-col items-center">
+                    <div className="flex  border-red-700 flex-col items-center">
                       <div className="flex flex-col items-center basis-[90%]">
                         <h2>Edit Profile</h2>
                         <div>
                           <label>
                             <Image
-                              // src={getuserinfo?.avatar}
                               src={getuserinfo?.avatar}
                               alt="avatar"
                               width={100}
@@ -1389,7 +1475,9 @@ const Page = () => {
                               onChange={handleImageChange}
                             />
                           </label>
-                          <p className="text-Secondary">Change Avatar</p>
+                          <p className="text-center text-Secondary">
+                            Change Avatar
+                          </p>
                         </div>
                       </div>
                       <div className="user-edit   space-y-4 w-[90%] basis-[90%]">
@@ -1409,18 +1497,18 @@ const Page = () => {
                           <input
                             type="email"
                             placeholder={getuserinfo?.email}
-                            value={formData?.email}
+                            value={getuserinfo?.email}
                             name="email"
                             onChange={handleInputChange}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                           />
                         </div>
                         <div className="flex flex-col ">
-                          <label htmlFor="phone-no">Phone Number</label>
+                          <label htmlFor="phone">Phone Number</label>
                           <input
                             type="number"
                             placeholder={getuserinfo?.phone?.toString()}
-                            value={formData?.phone?.toString()}
+                            value={getuserinfo?.phone?.toString()}
                             name="phone"
                             onChange={handleInputChange}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1428,11 +1516,10 @@ const Page = () => {
                         </div>
                         <div className="flex justify-between items-center">
                           <div className="flex flex-col basis-[45%] ">
-                            <label htmlFor="dob">DOB</label>
+                            <label htmlFor="dateOfBirth">DOB</label>
                             <input
                               type="date"
                               name="dateOfBirth"
-                              id=""
                               onChange={handleInputChange}
                               value={formData?.dateOfBirth?.slice(0, 10)}
                               placeholder={getuserinfo?.dateOfBirth?.slice(
@@ -1446,7 +1533,6 @@ const Page = () => {
                             <label htmlFor="gender">Gender</label>
                             <select
                               name="gender"
-                              id=""
                               value={formData?.gender}
                               onChange={handleInputChange}
                               className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1465,7 +1551,6 @@ const Page = () => {
                             type="text"
                             name="address"
                             value={formData?.address}
-                            id=""
                             onChange={handleInputChange}
                             placeholder={getuserinfo?.address?.toString()}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1489,7 +1574,6 @@ const Page = () => {
                             <input
                               type="text"
                               name="city"
-                              id=""
                               value={formData?.city}
                               onChange={handleInputChange}
                               placeholder={getuserinfo?.city?.toString()}
@@ -1502,7 +1586,6 @@ const Page = () => {
                           <input
                             type="number"
                             name="postalCode"
-                            id=""
                             value={formData?.postalCode}
                             onChange={handleInputChange}
                             placeholder={getuserinfo?.postalCode?.toString()}
@@ -1514,7 +1597,19 @@ const Page = () => {
                         onClick={handleUpdateprofile}
                         className="custom-gradient px-3 py-4 w-[90%] mx-auto my-3"
                       >
-                        update
+                        {loading ? (
+                          <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                            <Image
+                              src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                              alt="loader"
+                              width={200}
+                              height={100}
+                            />
+                          </div>
+                        ) : (
+                          "update"
+                        )}
+                      
                       </button>
                     </div>
                   </div>
@@ -1639,6 +1734,16 @@ const Page = () => {
                 Setjoinprivatetable={Setjoinprivatetable}
                 joinprivatetable={joinprivatetable}
               />
+            )}
+
+            {resetpassword && (
+              <div>
+                <div
+                  className=" fixed inset-0 bg-black opacity-80 z-[50]     "
+                  onClick={ToggleDrawer}
+                ></div>
+                <ResetpasswordModal Setresetpassword={Setresetpassword} />
+              </div>
             )}
           </section>
         </main>

@@ -50,10 +50,9 @@ body {
 }
 
 .main-nav-con {
-  /* background: #1f141f; */
   box-shadow: rgba(42, 40, 40, 0.3) 0px 10px 8px,
     rgba(14, 12, 12, 0.22) 0px 5px 2px;
-  background-image: url("../public/assets/hero/navshdow.svg");
+  background-image: url("https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/hero/navshdow.svg");
 }
 
 .step-itemp {

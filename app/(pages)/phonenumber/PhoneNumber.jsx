@@ -53,11 +53,9 @@ const countryCodes = [
   },
 ];
 
-
-
 const confirmationResult = null;
 
-const PhoneNumber= () => {
+const PhoneNumber = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -75,8 +73,8 @@ const PhoneNumber= () => {
   const [adotp, SetadOTP] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [temp, setTemp] = useState(false);
-  const [confirmationResult, setConfirmationResult] =
-    useState(null); // Use ConfirmationResult type or null
+  const [confirmationResult, setConfirmationResult] = useState(null); // Use ConfirmationResult type or null
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);
@@ -95,10 +93,7 @@ const PhoneNumber= () => {
     setPhoneNumber(newPhoneNumber);
   };
   const buttonColor = calculateButtonColor(phoneNumber);
-  const handleOnchange = (
-    e,
-    index
-   ) => {
+  const handleOnchange = (e, index) => {
     const { value } = e.target;
     const newOTP = [...otp];
     newOTP[index] = value.substring(value.length - 1);
@@ -115,10 +110,7 @@ const PhoneNumber= () => {
     SetadOTP(otpArry);
   };
 
-  const handleKeydown = (
-    { key },
-    index
-  ) => {
+  const handleKeydown = ({ key }, index) => {
     if (key === "Backspace") {
       if (!otp[index]) {
         setActiveOtpindex((prevIndex) => Math.max(prevIndex - 1, 0));
@@ -126,74 +118,117 @@ const PhoneNumber= () => {
     }
   };
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [activeotpindex]);
-
   const handleGoogleLogin = async () => {
     if (!isChecked) {
-      toast.success("min age 18 Check if you are 18");
+      toast.error("You must be at least 18 years old.");
     } else {
       try {
         const user = await googleSignIn();
         console.log(user);
 
-        const payload = {
-          name: user?.user?.displayName,
-          email: user?.user?.email,
-          avatar: user?.user?.photoURL,
-        };
-        //  console.log("sendbackd",payload)
-        const loginuser = {
-          email: user?.user?.email,
-        };
-        console.log("loginuser", loginuser);
-        Signuppost(payload)(dispatch)
-          .then((res) => {
-            console.log("userbackendsendresponse", res);
+         const loginuser = {
+           email: user?.user?.email,
+         };
 
-            Loginpost(loginuser)(dispatch)
-              .then((res) => {
-                console.log("res", res);
-                if (
-                  res?.type === "LOGINUSERSUCESS" &&
-                  res?.payload.msg ===
-                    "login successful, please take the token and keep it safe"
-                ) {
-                  localStorage.setItem(
-                    "Loggeduser",
-                    JSON.stringify(res?.payload?.resData)
-                  );
-                  localStorage.setItem(
-                    "token",
-                    JSON.stringify(res?.payload?.token)
-                  );
-                  toast.success("Signup Sucesssful");
-                  router.push("/dashboard");
-                } else {
-                  toast.error("something went wrong");
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-                toast.error(err);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-            toast.error(err);
-          });
+        if (user?.user?.accessToken) {
+          const payload = {
+            name: user.user.displayName,
+            email: user.user.email,
+            avatar: user.user.photoURL,
+          };
+
+          // Make the signup API call
+          Signuppost(payload)(dispatch)
+            .then((res) => {
+              console.log("user backend send response", res);
+              //  console.log("err",res.error)
+              if (
+                res?.type === "SIGNUPUSERSUCESS" &&
+                res?.payload?.msg === "User created successfully"
+              ) {
+                 Loginpost(loginuser)(dispatch)
+                    .then((res) => {
+                      console.log("res", res);
+                      if (
+                        res?.type === "LOGINUSERSUCESS" &&
+                        res?.payload.msg ===
+                          "login successful, please take the token and keep it safe"
+                      ) {
+                        localStorage.setItem(
+                          "Loggeduser",
+                          JSON.stringify(res?.payload?.resData)
+                        );
+                        localStorage.setItem(
+                          "token",
+                          JSON.stringify(res?.payload?.token)
+                        );
+                        toast.success("Signup Sucesssful");
+                        router.push("/dashboard");
+                      } else {
+                        toast.error("something went wrong");
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      toast.error(err);
+                    });
+              } 
+
+              if (
+                typeof res === "undefined" ||
+                typeof res.status === "undefined"
+              ) {
+                Loginpost(loginuser)(dispatch)
+                     .then((res) => {
+                      console.log("login",res)
+                       if (
+                         res?.type === "LOGINUSERSUCESS" &&
+                         res?.payload.msg ===
+                           "login successful, please take the token and keep it safe"
+                       ) {
+                         localStorage.setItem(
+                           "Loggeduser",
+                           JSON.stringify(res?.payload?.resData)
+                         );
+                         localStorage.setItem(
+                           "token",
+                           JSON.stringify(res?.payload?.token)
+                         );
+                         toast.success("Signup Sucesssful");
+                         router.push("/dashboard");
+                       } else {
+                         toast.error("something went wrong");
+                       }
+                     })
+                     .catch((err) => {
+                       console.log(err);
+                       toast.error(err);
+                     });
+              }
+            })
+            .catch((err) => {
+              console.error("Error during signup API call:", err.status);
+              toast.error("Error during signup. Please try again later.");
+            });
+        }
       } catch (error) {
-        console.log(error);
-        toast.error(error);
-      }
+           const errorCode = error.code;
+           const errorMessage = error.message;
+           toast.error(errorCode);
+        console.error("Error during Google sign-in:", error);
+       }
     }
   };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [activeotpindex]);
 
   const PhNumber = selectedCountryCode + phoneNumber;
 
   const handleGetOTP = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!isChecked) {
       toast.success("min age 18 Check if you are 18");
     } else {
@@ -211,24 +246,29 @@ const PhoneNumber= () => {
         toast.success("OTP Sent Succesfully");
         setConfirmationResult(res);
         setTemp(true);
+        setLoading(false);
       } catch (err) {
         console.log(err);
         setError(err.message);
         toast.error(err.message);
+        setLoading(false);
       }
     }
   };
 
   const handleverifyOTP = async (confirmationResult, adotp) => {
+    setLoading(true);
     try {
       const userCredential = await confirmationResult.confirm(adotp);
 
       console.log("usercre", userCredential);
       router.push("/createuser");
       toast.success("Verify sucessfully");
+      setLoading(false);
     } catch (error) {
       toast.error(error);
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -237,7 +277,7 @@ const PhoneNumber= () => {
       {confirmationResult ? (
         <div className=" mx-auto border-yellow-500 ">
           <label htmlFor="OTP" className="text-white  text-sm">
-            Email OTP
+            Enter OTP
           </label>
 
           <div className="w-[100%] pt-2 border-red-500 flex justify-center items-center gap-1 space-x-2">
@@ -274,7 +314,18 @@ const PhoneNumber= () => {
               type="submit"
               className="text-white py-1 px-2 font-semibold text-sm text-center "
             >
-              Verify
+              {loading ? (
+                <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                  <Image
+                    src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                    alt="loader"
+                    width={200}
+                    height={100}
+                  />
+                </div>
+              ) : (
+                "Verify"
+              )}
             </button>
           </div>
 
@@ -354,8 +405,18 @@ const PhoneNumber= () => {
                 type="submit"
                 className="text-white py-1 px-2 font-normal text-sm text-center"
               >
-                {" "}
-                Get OTP{" "}
+                {loading ? (
+                  <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                    <Image
+                      src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                      alt="loader"
+                      width={200}
+                      height={100}
+                    />
+                  </div>
+                ) : (
+                  "Get OTP"
+                )}
               </button>
             </div>
 
@@ -410,3 +471,69 @@ const PhoneNumber= () => {
 };
 
 export default PhoneNumber;
+
+/**
+ *  const handleGoogleLogin = async () => {
+    if (!isChecked) {
+      toast.success("min age 18 Check if you are 18");
+    } else {
+      try {
+        const user = await googleSignIn();
+        console.log(user);
+            if(user?.user?.accessToken) {
+
+            }
+        const payload = {
+          name: user?.user?.displayName,
+          email: user?.user?.email,
+          avatar: user?.user?.photoURL,
+        };
+       
+        const loginuser = {
+          email: user?.user?.email,
+        };
+        console.log("loginuser", loginuser);
+        
+        Signuppost(payload)(dispatch)
+          .then((res) => {
+            console.log("userbackendsendresponse", res);
+            
+            //  Loginpost(loginuser)(dispatch)
+            //    .then((res) => {
+            //      console.log("res", res);
+            //      if (
+            //        res?.type === "LOGINUSERSUCESS" &&
+            //        res?.payload.msg ===
+            //          "login successful, please take the token and keep it safe"
+            //      ) {
+            //        localStorage.setItem(
+            //          "Loggeduser",
+            //          JSON.stringify(res?.payload?.resData)
+            //        );
+            //        localStorage.setItem(
+            //          "token",
+            //          JSON.stringify(res?.payload?.token)
+            //        );
+            //        toast.success("Signup Sucesssful");
+            //        router.push("/dashboard");
+            //      } else {
+            //        toast.error("something went wrong");
+            //      }
+            //    })
+            //    .catch((err) => {
+            //      console.log(err);
+            //      toast.error(err);
+            //    });
+         
+          })
+          .catch((err) => {
+            console.log(err.error);
+            toast.error(err);
+          });
+      } catch (error) {
+        console.log(error);
+        toast.error(error);
+      }
+    }
+  };
+ */

@@ -1,0 +1,4 @@
+
+.password-input::placeholder {
+  content: "\2605"; /* Unicode character for a star */
+}

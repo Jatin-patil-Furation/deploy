@@ -6,18 +6,17 @@ import HeroCard from "./Herocard/HeroCard";
 import Mobilehero from "./Herocard/Mobilehero";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import axios from "axios"
-
+import axios from "axios";
 
 const Hero: React.FC = () => {
-  const [admin, SetAdmin] = useState("")
-
+  const [admin, SetAdmin] = useState("");
 
   return (
     <section>
       <div className=" relative  top-0 mobiles">
         <div
-          className="w-[100vw]   bg-[url(https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/hero/background.svg)]
+          className="w-[100vw]  
+           bg-[url(https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/hero/background.svg)]
        bg-center bg-no-repeat"
         >
           <div

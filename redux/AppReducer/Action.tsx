@@ -33,7 +33,7 @@ const AdmingetuserReq = () => {
 
 const AdmingetuserSuccess = (payload: AxiosResponse<any, any>) => {
   return {
-    type: types.ADMINUSERDATASUCESS, // Assuming you have a constant named CREATE_TOURNAMENT_SUCCESS defined in a file named 'types'.
+    type: types.ADMINUSERDATASUCESS, 
     payload,
   };
 };
@@ -153,7 +153,7 @@ export const GetloggedData = (dispatch: Dispatch) => {
   dispatch(getdatareq());
 
   return axios
-    .get(`https://blue-seahorse-suit.cyclic.cloud/api/v1/user/get/profile`, {
+    .get(`https://anxious-tiara-fox.cyclic.cloud/api/v1/user/get/profile`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -181,7 +181,7 @@ export const GETADMINALLUSERDATA = (dispatch: Dispatch) => {
 
   dispatch(AdmingetuserReq());
   return axios
-    .get(`https://blue-seahorse-suit.cyclic.cloud/api/v1/user/gets/`, {
+    .get(`https://anxious-tiara-fox.cyclic.cloud/api/v1/user/gets/`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -204,7 +204,7 @@ export const Createtounament =
     dispatch(CreatetournamentReq());
     return axios
       .put(
-        `https://blue-seahorse-suit.cyclic.cloud/api/v1/user/update/${id}`,
+        `https://anxious-tiara-fox.cyclic.cloud/api/v1/user/update/${id}`,
         payload
       )
       .then((res) => {
@@ -223,7 +223,7 @@ export const ADMINCREDIT = (payload: any) => (dispatch: Dispatch) => {
   dispatch(AdmincreditReq());
   return axios
     .post(
-      `https://blue-seahorse-suit.cyclic.cloud/api/v1/transaction/update-user-wallet/credit`,
+      `https://anxious-tiara-fox.cyclic.cloud/api/v1/transaction/update-user-wallet/credit`,
       payload
     )
     .then((res) => {
@@ -242,7 +242,7 @@ export const ADMINDEBIT = (payload: any) => (dispatch: Dispatch) => {
   dispatch(AdmindebitReq());
   return axios
     .post(
-      `https://blue-seahorse-suit.cyclic.cloud/api/v1/transaction/update-user-wallet/debit`,
+      `https://anxious-tiara-fox.cyclic.cloud/api/v1/transaction/update-user-wallet/debit`,
       payload
     )
     .then((res) => {
@@ -264,7 +264,7 @@ export const CREATEPRIVATETABLE = (dispatch: Dispatch) => {
   dispatch(JOinprivatetableReq());
   return axios
     .post(
-      `https://blue-seahorse-suit.cyclic.cloud/api/v1/table/create/private`,
+      `https://anxious-tiara-fox.cyclic.cloud/api/v1/table/create/private`,
       {},
       {
         headers: {

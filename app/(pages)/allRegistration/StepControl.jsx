@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Signuppost } from "../../../redux/AuthReducer/Action";
 import Toast from "../notification/Toast";
 import { useRouter } from "next/navigation";
+import "./step.css"
+import Image from "next/image";
 
 const countryCodes = [
   {
@@ -51,6 +53,7 @@ const StepControl = ({
   const router = useRouter();
   const dispatch = useDispatch();
   const [passwordVisible, setPasswordVisible] = useState(false);
+   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -67,6 +70,8 @@ const StepControl = ({
   const usersignupdata = useSelector(
     (store) => store.AuthReducer.userdata
   );
+   const [registrationError, setRegistrationError] = useState(null);
+
   console.log("usersingupres", usersignupdata);
 
   const togglePasswordVisibility = () => {
@@ -93,25 +98,34 @@ const StepControl = ({
 
   console.log("formdata", formData);
 
+  
+ 
   const handlelogin = () => {
+    setLoading(true);
+
     const { password, confirmpassword } = formData;
+
     if (password.trim() === "" || confirmpassword.trim() === "") {
       toast.error("Please fill in both password fields.");
-      return false;
+      setLoading(false); // Reset loading state
+      return;
     }
+
     if (password !== confirmpassword) {
       toast.error("Passwords do not match");
-      return false;
+      setLoading(false); // Reset loading state
+      return;
     }
-    if(password.length<6  ){
-        toast.error("Password must be greater then 6 character");
-        return false
+
+    if (password.length < 6) {
+      toast.error("Password must be greater than 6 characters");
+      setLoading(false); // Reset loading state
+      return;
     }
 
     createUserWithEmailAndPassword(auth, formData.email, formData.password)
       .then((res) => {
-
-         console.log("firebase",res);
+        console.log("firebase", res?.user?.accessToken);
 
         const senddatabackend = {
           name: formData.name,
@@ -124,30 +138,56 @@ const StepControl = ({
           postalCode: formData.postalCode,
           address: formData.address,
         };
-        dispatch(Signuppost(senddatabackend))
 
-          .then((res) => {
-            console.log("res", res);
-            // console.log("userbackendsendresponse", res.payload);
-          
-             if (res.type === "SIGNUPUSERSUCESS" && 
-             res.payload.msg==="User created successfully"
-             ) {
-               router.push("/login");
-               toast.success("Signup Sucesss");
-             }
-            
-           })
-          .catch((err) => {
-            console.log(err);
-            toast.error(err);
-          });
+        if (res?.user?.accessToken) {
+          dispatch(Signuppost(senddatabackend))
+            .then((res) => {
+              console.log("res", res);
+
+              if (
+                res.type === "SIGNUPUSERSUCESS" &&
+                res.payload.msg === "User created successfully"
+              ) {
+                toast.success("Signup Success");
+                router.push("/login");
+                toast.success("Signup Success");
+              } else {
+                toast.error("Something went wrong");
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              toast.error(err.message);
+            })
+            .finally(() => {
+              setLoading(false); // Reset loading state
+            });
+        }
       })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err)
-      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        const errorCode = error.code;
+
+        SetCurrentStep(1);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          dateOfBirth: "",
+          gender: "",
+          address: "",
+          country: "",
+          city: "",
+          postalCode: "",
+          password: "",
+          confirmpassword: "",
+        });
+
+        toast.error(errorMessage);
+        setLoading(false); // Reset loading state
+      });
   };
+
 
   const handleNextClick = () => {
     if (isFormValidform()) {
@@ -340,7 +380,7 @@ const StepControl = ({
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="w-[100%] px-1 py-[.7rem] md:py-[15px] mr-2 text-[#636363] bg-[#1E1E1E] border-red-800 p-2 rounded"
+                    className="w-[100%] px-1 py-[.7rem] md:py-[15px] mr-2 text-white  bg-[#1E1E1E] border-red-800 p-2 rounded"
                   >
                     <option value="Select">Select</option>
                     <option value="Male">Male</option>
@@ -378,9 +418,8 @@ const StepControl = ({
                   <select
                     name="country"
                     value={formData.country}
-                    // onChange={selectedcountry}
                     onChange={handleInputChange}
-                    className="w-[100%] text-[#636363] px-2 py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
+                    className="w-[100%] text-white  px-2 py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
                   >
                     <option value="Select">Select</option>
                     <option value="India">India</option>
@@ -399,7 +438,7 @@ const StepControl = ({
                     name="city"
                     onChange={handleInputChange}
                     className="w-[100%] px-2  text-sm
-             text-[#636363] py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
+             text-white  py-[.7rem] md:py-4 mr-2  bg-[#1E1E1E] border-red-800 p-2 rounded"
                   >
                     <option value="Select">Select</option>
                     <option value="Agra">Agra</option>
@@ -440,7 +479,6 @@ const StepControl = ({
               >
                 <button
                   className={`text-white  py-1 px-2 md:font-semibold text-sm text-center `}
-                  // onClick={handleSecondNextClick}
                 >
                   One more step to go !
                 </button>
@@ -463,7 +501,7 @@ const StepControl = ({
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="current-password"
                 required
-                className="appearance-none  relative block
+                className="appearance-none password-input  relative block
            w-full px-6 py-2 md:py-4 bg-[#1E1E1E] 
               border-none
               text-white  p-2 rounded-lg
@@ -505,7 +543,7 @@ const StepControl = ({
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="current-password"
                 required
-                className="appearance-none  relative block
+                className="appearance-none  password-input relative block
            w-full px-6 py-2 md:py-4 bg-[#1E1E1E] 
               border-none
               text-white  p-2 rounded-lg
@@ -549,7 +587,18 @@ const StepControl = ({
                   onClick={handlelogin}
                   className={`text-white py-1 px-2 md:font-semibold text-sm text-center `}
                 >
-                  Let get started
+                  {loading ? (
+                    <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                      <Image
+                        src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                        alt="loader"
+                        width={200}
+                        height={100}
+                      />
+                    </div>
+                  ) : (
+                    "Let get started"
+                  )}
                 </button>
               </div>
             </div>
@@ -562,3 +611,78 @@ const StepControl = ({
 
         }
 export default StepControl;
+
+ // const handlelogin = () => {
+  //   setLoading(true)
+  //   const { password, confirmpassword } = formData;
+  //   if (password.trim() === "" || confirmpassword.trim() === "") {
+  //     toast.error("Please fill in both password fields.");
+  //     return false;
+  //   }
+  //   if (password !== confirmpassword) {
+  //     toast.error("Passwords do not match");
+  //     return false;
+  //   }
+  //   if(password.length<6  ){
+  //       toast.error("Password must be greater then 6 character");
+  //       return false
+  //   }
+
+  //   createUserWithEmailAndPassword(auth, formData.email, formData.password)
+  //     .then((res) => {
+  //        console.log("fiire",res)
+  //        console.log("firebase", res?.user?.accessToken);
+  //       const senddatabackend = {
+  //         name: formData.name,
+  //         dateOfBirth: formData.dateOfBirth,
+  //         email: formData.email,
+  //         phone: formData.phone,
+  //         gender: formData.gender,
+  //         country: formData.country,
+  //         city: formData.city,
+  //         postalCode: formData.postalCode,
+  //         address: formData.address,
+  //       };
+  //        if(res?.user?.accessToken){
+  //          dispatch(Signuppost(senddatabackend))
+  //            .then((res) => {
+  //              console.log("res", res);
+             
+  //               if (res.type === "SIGNUPUSERSUCESS" &&
+  //               res.payload.msg==="User created successfully"
+  //               ) {
+  //                 toast.success("Signup Sucesss");
+  //                  router.push("/login");
+  //                   setLoading(false);
+  //               }else{
+  //                 toast.error("Something went wrong");
+  //               }
+  //             })
+  //            .catch((err) => {
+  //               console.log(err);
+  //                 toast.error(err);
+  //                  setLoading(false);
+  //            });
+  //        }
+  //     })
+  //    .catch((error) => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //         SetCurrentStep(1);
+  //        setFormData({
+  //          name: "",
+  //          email: "",
+  //          phone: "",
+  //          dateOfBirth: "",
+  //          gender: "",
+  //          address: "",
+  //          country: "",
+  //          city: "",
+  //          postalCode: "",
+  //          password: "",
+  //          confirmpassword: "",
+  //        });
+  //         setLoading(false);
+  //          toast.error(errorCode);
+  //     })
+  // };

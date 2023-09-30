@@ -1,10 +1,18 @@
-import React from "react";
+'use client';
+import React,{useEffect} from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { GetloggedData } from "@/redux/AppReducer/Action";
 const Navbar = ({ setDrawerOpen, drawerOpen }: any) => {
-  const playerWallet = 125;
+ 
  const router = useRouter();
+const dispatch = useDispatch();
+ const getuserinfo = useSelector((store:any) => store.AppReducer.Userloggeddata);
+ 
+  useEffect(() => {
+    GetloggedData(dispatch);
+  }, []);
 
    const homeredirect=() =>{
    router.push("/")   
@@ -34,7 +42,7 @@ const Navbar = ({ setDrawerOpen, drawerOpen }: any) => {
             alt="close-icon"
             width={50}
             height={50}
-            className="w-[7%] h-[7%] lg:w-[2.5%] lg:h-[2.5%%] hover:cursor-pointer"
+            className="w-[7%] h-[40%] lg:w-[2.5%] lg:h-[2.5%%] hover:cursor-pointer"
             onClick={() => setDrawerOpen(false)}
           />
         )}
@@ -50,7 +58,7 @@ const Navbar = ({ setDrawerOpen, drawerOpen }: any) => {
 
         <button className="custom-gradient px-1 py-1 md:p-2 lg:p-3 text-sm">
           <span className="hidden md:inline ">Total Balance:</span> $
-          {playerWallet}
+          {getuserinfo?.wallet || 0 }
         </button>
       </div>
     </nav>

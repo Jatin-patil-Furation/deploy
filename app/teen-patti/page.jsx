@@ -2,7 +2,7 @@
 import Cardanimate from "@/components/Animation/Cardanimate";
 import SideShow from "@/components/modals/Sideshow";
 import "./ani.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import Cardlefttop from "@/components/Animation/Cardlefttop";
 import Cardleftmiddle from "@/components/Animation/Cardleftmiddle";
@@ -10,18 +10,9 @@ import Cardleftbottom from "@/components/Animation/Cardleftbottom";
 import Righttop from "@/components/Animation/Righttop";
 import Rightmiddle from "@/components/Animation/Rightmiddle";
 import Rightbottom from "@/components/Animation/Rightbottom";
-const socket = io("https://socketofteenpatti.onrender.com/", {
-  transports: ["websocket"],
-});
 import Shareinvite from "@/components/modals/Shareinvite";
-import { useDispatch, useSelector } from "react-redux";
-import { GetloggedData } from "@/redux/AppReducer/Action";
 
 const LandscapePage = () => {
-  const dispatch = useDispatch();
-  const Loggeduser = useSelector((store) => store.AppReducer.Userloggeddata);
-  // const Loggeduser = JSON.parse(localStorage.getItem("Loggeduser"));
-  console.log(Loggeduser);
   const [notification, setNotification] = useState(null);
   const [gameStartCounter, setGameStartCounter] = useState(null);
   const [shareinvitecode, SetshareinviteCode] = useState(true);
@@ -42,6 +33,9 @@ const LandscapePage = () => {
   const [chips, setChip] = useState(2499000);
   const [sideShowModal, setSideShowModal] = useState(false);
   const [winReason, setWinReason] = useState(null);
+  const [cardsInfo, setCardsInfo] = useState(null);
+  const [Loggeduser, setLoggeduser] = useState(null);
+  const [privateTableKey, setPrivateTableKey] = useState(null);
 
   const handleDouble = () => {
     if (!hasDoubled) {
@@ -60,7 +54,6 @@ const LandscapePage = () => {
   };
 
   useEffect(() => {
-    GetloggedData(dispatch);
     // Check the screen orientation when the component mounts
     const checkOrientation = () => {
       setIsPortrait(window.innerWidth < window.innerHeight);
@@ -81,16 +74,26 @@ const LandscapePage = () => {
   useEffect(() => {
     // Redirect to another page if it's in portrait mode on a mobile device
     if (isPortrait && window.innerWidth <= 768) {
-      window.location.href = "/teen-patti"; // Replace with your desired URL
+      window.location.href = "/teen-patti-mobile"; // Replace with your desired URL
     }
   }, [isPortrait]);
 
-  let privateTableKey = null;
+  const socketRef = useRef(null);
+
   useEffect(() => {
-    privateTableKey = +JSON.parse(localStorage.getItem("privateTableKey"));
+    const Loggeduser = JSON.parse(localStorage.getItem("Loggeduser"));
+    const privateTableKey = +JSON.parse(
+      localStorage.getItem("privateTableKey")
+    );
+    setPrivateTableKey(() => privateTableKey);
+    console.log(Loggeduser);
+    setLoggeduser(() => Loggeduser);
     console.log(privateTableKey);
     console.log("connection start ");
-    socket.on("connect", () => {
+    socketRef.current = io("https://newsocket.onrender.com/", {
+      transports: ["websocket"],
+    });
+    socketRef.current.on("connect", () => {
       setIsSocketConnected(true);
       if (privateTableKey) {
         console.log("joining private invite key table");
@@ -98,12 +101,12 @@ const LandscapePage = () => {
           boot: 12000,
           key: privateTableKey,
         };
-        socket.emit("private", data);
+        socketRef.current.emit("private", data);
       } else {
         console.log("joining public table");
-        socket.emit("public");
+        socketRef.current.emit("public");
       }
-      socket.emit("joinTable", {
+      socketRef.current.emit("joinTable", {
         displayName: Loggeduser?.name,
         userName: Loggeduser?.name,
         chips: 2499000,
@@ -114,14 +117,14 @@ const LandscapePage = () => {
         id: socketId,
       });
 
-      socket.on("notification", (data) => {
+      socketRef.current.on("notification", (data) => {
         console.log(data);
         setNotification(data?.message);
       });
-      socket.on("newPlayerJoined", (newplayer) => {
+      socketRef.current.on("newPlayerJoined", (newplayer) => {
         console.log("new player joined", newplayer);
       });
-      socket.on("joinTable", (newplayer) => {
+      socketRef.current.on("joinTable", (newplayer) => {
         setPlayerGamingStatus(() => newplayer);
 
         setplayerSlotIndex(() => newplayer?.slot?.split("slot")[1]);
@@ -131,20 +134,20 @@ const LandscapePage = () => {
 
         console.log("new player", newplayer);
       });
-      socket.on("connectionSuccess", (data) => {
+      socketRef.current.on("connectionSuccess", (data) => {
         console.log("connection is done", data);
       });
-      socket.on("connectionSuccess", (data) => {
+      socketRef.current.on("connectionSuccess", (data) => {
         setSocketId(data.id);
         setTableId(data.tableId);
       });
-      socket.on("cardsSeen", (data) => {
+      socketRef.current.on("cardsSeen", (data) => {
         console.log("cardsInfo", data.cardsInfo);
-
+        setCardsInfo(data.cardsInfo);
         console.log("players", data.players);
         setCardSee(true);
       });
-      socket.on("betPlaced", (data) => {
+      socketRef.current.on("betPlaced", (data) => {
         console.log("bet", data.bet);
         console.log("placedBy", data.placedBy);
         console.log("players", data.players);
@@ -175,7 +178,7 @@ const LandscapePage = () => {
           setValue(data.table.lastBet / 2);
         }
       });
-      socket.on("sideShowResponded", (data) => {
+      socketRef.current.on("sideShowResponded", (data) => {
         console.log("message", data.message);
         //todo: sideshow bet undefinded console.log("bet", data.bet);
         console.log("placedBy", data.placedBy);
@@ -185,7 +188,7 @@ const LandscapePage = () => {
         setTableDetails(data.table);
         setNotification(null);
       });
-      socket.on("sideShowPlaced", (data) => {
+      socketRef.current.on("sideShowPlaced", (data) => {
         setNotification("Wait for opponent side show response");
         console.log("message", data.message);
         console.log("bet", data.bet);
@@ -195,13 +198,13 @@ const LandscapePage = () => {
         setTableDetails(data.table);
         console.log("table", data.table);
       });
-      socket.on("showWinner", (data) => {
+      socketRef.current.on("showWinner", (data) => {
         console.log("winner data", data);
         setWinReason(data.message);
         setPlayers(data.players);
         setTableDetails(data.table);
       });
-      socket.on("playerPacked", (data) => {
+      socketRef.current.on("playerPacked", (data) => {
         console.log("bet", data.bet);
         console.log("placedBy", data.placedBy);
         console.log("players", data.players);
@@ -209,7 +212,7 @@ const LandscapePage = () => {
         setPlayers(() => data.players);
         setTableDetails(data.table);
       });
-      socket.on("startNew", (data) => {
+      socketRef.current.on("startNew", (data) => {
         setPlayers(data.players);
         setTableDetails(data.table);
         setCardSee(false);
@@ -217,7 +220,7 @@ const LandscapePage = () => {
         setIsBliend(true);
         console.log(data);
         setWinReason(null);
-
+        setCardsInfo(null);
         setNotification(null);
         const countdown = 5; // Replace with the timer value from your data
         setGameStartCounter(countdown);
@@ -233,10 +236,10 @@ const LandscapePage = () => {
           });
         }, 1000);
       });
-      socket.on("notification", (data) => {
+      socketRef.current.on("notification", (data) => {
         console.log(data);
       });
-      socket.on("gameCountDown", (data) => {
+      socketRef.current.on("gameCountDown", (data) => {
         const countdown = data.count; // Replace with the timer value from your data
         if (data.count) {
           setGameStartCounter(countdown);
@@ -253,12 +256,12 @@ const LandscapePage = () => {
           }, 1000);
         }
       });
-      socket.on("resetTable", (data) => {
+      socketRef.current.on("resetTable", (data) => {
         console.log(data.sentObj);
       });
     });
     return () => {
-      socket.on("disconnect", () => {
+      socketRef.current.on("disconnect", () => {
         setIsSocketConnected(false);
         console.log("disconected");
       });
@@ -267,18 +270,14 @@ const LandscapePage = () => {
       }
     };
   }, []);
-  useEffect(() => {
-    if (Object.keys(slotPlayerMap).length >= 2) {
-    }
-    return () => {};
-  }, []);
 
   const handleBliend = () => {
-    if (isSocketConnected) {
+    const socket = socketRef.current;
+    if (isSocketConnected && socket) {
       // Emit the socket event here
       console.log("bliend called ", value);
       setChip((prev) => prev - value);
-      socket.emit("placeBet", {
+      socketRef.current.emit("placeBet", {
         player: {
           id: gameData?.id,
           playerInfo: gameData?.playerInfo,
@@ -299,7 +298,7 @@ const LandscapePage = () => {
       // Emit the socket event here
       console.log("pack called ", value);
 
-      socket.emit("placePack", {
+      socketRef.current.emit("placePack", {
         player: {
           id: gameData?.id,
           playerInfo: gameData?.playerInfo,
@@ -319,7 +318,7 @@ const LandscapePage = () => {
       // Emit the socket event here
       console.log("bliend called ", value);
 
-      socket.emit("placeBet", {
+      socketRef.current.emit("placeBet", {
         player: {
           id: gameData?.id,
           playerInfo: gameData?.playerInfo,
@@ -338,7 +337,7 @@ const LandscapePage = () => {
     if (isSocketConnected) {
       // Emit the socket event here
       console.log("side showe called ");
-      socket.emit("placeSideShow", {
+      socketRef.current.emit("placeSideShow", {
         player: {
           id: gameData?.id,
           playerInfo: gameData?.playerInfo,
@@ -354,8 +353,6 @@ const LandscapePage = () => {
   };
 
   const handleSeeCards = () => {
-    Setseeplayingcard((prev) => !prev);
-
     setCardSee(() => true);
     setValue(() => value * 2);
     setIsBliend(false);
@@ -363,7 +360,7 @@ const LandscapePage = () => {
       // Emit the socket event here
       console.log("seen card ");
 
-      socket.emit("seeMyCards", {
+      socketRef.current.emit("seeMyCards", {
         id: gameData?.id,
       });
     } else {
@@ -377,7 +374,7 @@ const LandscapePage = () => {
       // Emit the socket event here
       console.log("side show");
 
-      socket.emit("respondSideShow", {
+      socketRef.current.emit("respondSideShow", {
         player: {
           id: gameData?.id,
           playerInfo: {
@@ -395,7 +392,7 @@ const LandscapePage = () => {
       setSideShowModal(false);
       // Emit the socket event here
       console.log("side show");
-      socket.emit("respondSideShow", {
+      socketRef.current.emit("respondSideShow", {
         player: {
           id: gameData?.id,
           playerInfo: {
@@ -421,10 +418,11 @@ const LandscapePage = () => {
 
   console.log(players, tableDetails, playerId);
   console.log(slotPlayerMap, playerSlotIndex, slotPlayerMap?.[playerSlotIndex]);
+  console.log(cardsInfo);
   console.log(Loggeduser?.avatar);
 
   return (
-    <div className="min-h-screen relative font-roboto bg-[url('/assets/landingPage/sikkaplaybg.svg')] bg-cover bg-no-repeat     overflow-y-clip mx-auto">
+    <div className="min-h-screen relative  font-roboto bg-[url('/assets/landingPage/sikkaplaybg.svg')] bg-cover bg-no-repeat   overflow-y-clip mx-auto">
       <div className=" text-white relative h-[100vh] w-[100vw] space-y-10 mx-auto py-3 max-w-7xl">
         {/* navbar */}
         <div className="teen-patti-navbar  flex justify-between w-[80%] mx-auto ">
@@ -473,7 +471,7 @@ const LandscapePage = () => {
         {/* table */}
         <div className="h-[76%] w-[100%]">
           <div className="Img-container absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[75vw] sml:w-[65vw] xl:w-[62vw] 2xl:w-[70vw]    max-w-7xl ">
-            <div className="relative w-full h-full">
+            <d iv className="relative w-full h-full">
               <img
                 src={"/assets/Game-table/table-background.svg"}
                 alt="table"
@@ -1000,94 +998,93 @@ const LandscapePage = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </d>
             <Cardanimate
-              cardsInfo={players?.[playerId]?.cardSet?.cards}
+              cardsInfo={cardsInfo || players?.[playerId]?.cardSet?.cards}
               seeplayingcard={players?.[playerId]?.seen}
             />
           </div>
         </div>
         {/* footer */}
-        {(!shareinvitecode || !privateTableKey) && (
-          <div className="teen-patti-navbar  mx-auto  bottom-5 left-0  right-0 flex justify-evenly items-center w-[100%]   ">
-            <div className="left-container flex justify-between items-center gap-7 ">
-              {players?.[playerId]?.turn && !players?.[playerId]?.packed && (
+
+        <div className="teen-patti-navbar  mx-auto  bottom-5 left-0  right-0 flex justify-evenly items-center w-[100%]   ">
+          <div className="left-container flex justify-between items-center gap-7 ">
+            {players?.[playerId]?.turn && !players?.[playerId]?.packed && (
+              <button
+                onClick={handlePack}
+                className="custom-gradient px-3 py-1 text-base"
+              >
+                Pack
+              </button>
+            )}
+
+            {players?.[playerId]?.turn &&
+              !players?.[playerId]?.packed &&
+              players?.[playerId]?.isSideShowAvailable &&
+              cardSee && (
                 <button
-                  onClick={handlePack}
+                  onClick={
+                    tableDetails?.isShowAvailable
+                      ? handleshow
+                      : handlePlaceSideShow
+                  }
                   className="custom-gradient px-3 py-1 text-base"
                 >
-                  Pack
-                </button>
-              )}
-
-              {players?.[playerId]?.turn &&
-                !players?.[playerId]?.packed &&
-                players?.[playerId]?.isSideShowAvailable &&
-                cardSee && (
-                  <button
-                    onClick={
-                      tableDetails?.isShowAvailable
-                        ? handleshow
-                        : handlePlaceSideShow
-                    }
-                    className="custom-gradient px-3 py-1 text-base"
-                  >
-                    {tableDetails?.isShowAvailable ? "show" : "Side Show"}
-                  </button>
-                )}
-            </div>
-            <div
-              className={`relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 transform  transition-transform duration-[3000] ease-in-out z-[1000] `}
-            >
-              <img
-                src={"/assets/Game-table/red-chip.svg"}
-                alt="red-chip"
-                width={50}
-                height={50}
-                className="absolute left-[-1.5rem] top-[0rem] h-full "
-              />
-              <p className=" text-center text-lg">{chips}</p>
-            </div>
-            <div className="right-container flex justify-between items-center gap-2">
-              {players?.[playerId]?.turn && !players?.[playerId]?.packed && (
-                <div className="flex justify-between items-center gap-4 ">
-                  <button
-                    onClick={handleDeduct}
-                    className="rounded-full border border-white flex justify-center items-center w-5 h-5 text-center"
-                  >
-                    -
-                  </button>
-
-                  <button
-                    onClick={handleBliend}
-                    className="custom-gradient px-3 py-1 text-base  btn-parent group flex flex-col"
-                  >
-                    <span className="btn-child group-hover:w-24 group-hover:h-24"></span>
-                    <p className="basis-full">{isBliend ? "Blind" : "Chaal"}</p>
-                    <p>{value}</p>
-                  </button>
-                  <button
-                    onClick={handleDouble}
-                    className="bg-Secondary rounded-full border border-white  flex justify-center items-center w-5 h-5"
-                  >
-                    +
-                  </button>
-                </div>
-              )}
-            </div>
-            {!players?.[playerId]?.packed &&
-              players?.[playerId]?.active &&
-              !cardSee && (
-                <button
-                  className=" custom-gradient btn-parent text-white group"
-                  onClick={handleSeeCards}
-                >
-                  <span className="btn-child"></span>
-                  <span className="relative">See</span>
+                  {tableDetails?.isShowAvailable ? "show" : "Side Show"}
                 </button>
               )}
           </div>
-        )}
+          <div
+            className={`relative bg-GreyDark opacity-80 border-GreyDark border-y-white border-y-[1px] px-6 transform  transition-transform duration-[3000] ease-in-out z-[1000] `}
+          >
+            <img
+              src={"/assets/Game-table/red-chip.svg"}
+              alt="red-chip"
+              width={50}
+              height={50}
+              className="absolute left-[-1.5rem] top-[0rem] h-full "
+            />
+            <p className=" text-center text-lg">{chips}</p>
+          </div>
+          <div className="right-container flex justify-between items-center gap-2">
+            {players?.[playerId]?.turn && !players?.[playerId]?.packed && (
+              <div className="flex justify-between items-center gap-4 ">
+                <button
+                  onClick={handleDeduct}
+                  className="rounded-full border border-white flex justify-center items-center w-5 h-5 text-center"
+                >
+                  -
+                </button>
+
+                <button
+                  onClick={handleBliend}
+                  className="custom-gradient px-3 py-1 text-base  btn-parent group flex flex-col"
+                >
+                  <span className="btn-child group-hover:w-24 group-hover:h-24"></span>
+                  <p className="basis-full">{isBliend ? "Blind" : "Chaal"}</p>
+                  <p>{value}</p>
+                </button>
+                <button
+                  onClick={handleDouble}
+                  className="bg-Secondary rounded-full border border-white  flex justify-center items-center w-5 h-5"
+                >
+                  +
+                </button>
+              </div>
+            )}
+          </div>
+          {!players?.[playerId]?.packed &&
+            players?.[playerId]?.active &&
+            !cardSee && (
+              <button
+                className=" custom-gradient btn-parent text-white group"
+                onClick={handleSeeCards}
+              >
+                <span className="btn-child"></span>
+                <span className="relative">See</span>
+              </button>
+            )}
+        </div>
       </div>
       {playerId && players?.[playerId]?.sideShowTurn && sideShowModal && (
         <SideShow
@@ -1095,17 +1092,20 @@ const LandscapePage = () => {
           handleResponseSideShowAccept={handleResponseSideShowAccept}
         />
       )}
-      {sideShowModal && notification && (
-        <div className=" text-center  absolute px-10 py-6 bg-GreyDark opacity-80 text-white text-2xl left-1/2 top-[30%] transform -translate-x-1/2 -translate-y-1/2 font-semibold w-[80%]">
-          {notification}
-        </div>
-      )}
+      {!(playerId && players?.[playerId]?.sideShowTurn && sideShowModal) &&
+        notification && (
+          <div className=" text-center  absolute px-10 py-6 bg-GreyDark opacity-80 text-white text-2xl left-1/2 top-[30%] transform -translate-x-1/2 -translate-y-1/2 font-semibold w-[80%]">
+            {notification}
+          </div>
+        )}
       {winReason && (
         <div className=" text-center  absolute px-10 py-6 bg-GreyDark opacity-80 text-white text-2xl left-1/2 top-[30%] transform -translate-x-1/2 -translate-y-1/2 font-semibold w-[80%]">
           {winReason}
         </div>
       )}
-      {((players?.[playerId]?.active && gameStartCounter !== 0) || null) &&
+      {players?.[playerId]?.active &&
+        gameStartCounter !== 0 &&
+        gameStartCounter !== null &&
         !notification && (
           <div className="text-center  absolute px-10 py-6 bg-GreyDark opacity-80 text-white text-2xl left-1/2 top-[30%] transform -translate-x-1/2 -translate-y-1/2 font-semibold w-[80%]">
             Game Starts in {gameStartCounter} Seconds
