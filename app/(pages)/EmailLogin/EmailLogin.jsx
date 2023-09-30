@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
 import orline from "../../../public/assets/users/orline.svg";
 import Image from "next/image";
-import googlelogo from "../../../public/assets/users/gogle.svg";
 import Applelogo from "../../../public/assets/users/Apple.svg";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -22,7 +21,7 @@ const EmailLogin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [passwordVisible, setPasswordVisible] = useState(false);
- 
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -63,7 +62,12 @@ const EmailLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+const { email, password } = formData;
+if (email.trim() === "" || password.trim() === "") {
+  toast.error("Please fill in both password fields.");
+  return false;
+}
+ setLoading(true);
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         console.log("usercredentail", userCredential);
@@ -82,6 +86,7 @@ const EmailLogin = () => {
                 "token",
                 JSON.stringify(res?.payload?.token)
               );
+               setLoading(false);
               toast.success("Login Sucesss");
               Loggeduser();
             }
@@ -89,15 +94,22 @@ const EmailLogin = () => {
           .catch((err) => {
             console.log(err);
             toast.error(err);
+            setLoading(false);
           });
       })
       .catch((error) => {
+        
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);
-        toast.error(error.message);
+         toast.error(errorCode);
+         setFormData({
+           email: "",
+           password: "",
+         });
+         setLoading(false);
       });
-    console.log(formData);
+    // console.log(formData);
   };
 
    const handleGoogleLogin = async () => {
@@ -226,16 +238,30 @@ const EmailLogin = () => {
         >
           <button
             type="submit"
+          
+            disabled={loading}
             className={`text-white hover:cursor-pointer py-1 px-2 font-semibold text-sm text-center `}
           >
-            Login
+            {loading ? (
+              <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                <Image
+                  src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                  alt="loader"
+                  width={200}
+                  height={100}
+                />
+              </div>
+            ) : (
+              "Login"
+            )}
+
+            {/* Login */}
           </button>
         </div>
       </form>
       <div className="px-2 py-4 flex items-center justify-center border-yellow-600 rounded-md">
         <Image src={orline} alt="orline" />
       </div>
-
 
       <div className="py-2">
         <div className=" py-2  bg-[#1E1E1E] flex items-center justify-center border-yellow-600 rounded-md">

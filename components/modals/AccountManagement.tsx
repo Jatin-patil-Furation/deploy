@@ -115,7 +115,7 @@ const AccountManagement = ({ setAccountMangement }: any) => {
     <div
       className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-x-hidden bg-Background  flex flex-col gap-3 items-center z-[100] w-[75%] ${
         !addBalance && !withdrawBalance && " h-[80%] overflow-y-auto "
-      }   sm:[72%] md:w-[65%] lg:w-[60%] scrollbar-none `}
+      }  w-[90%]  sm:[72%] md:w-[65%] lg:w-[60%] scrollbar-none `}
     >
       <button
         className="relative custom-gradient py-3 w-full rounded-t-sm rounded-b-none"

@@ -9,17 +9,19 @@ import Shareinvite from "../modals/Shareinvite";
 const Games= ({ setTeenPattiGame }) => {
   const [showJointable, SetshowJointable] = useState(false);
 
-   const cardState = {
-     showJointable,
-     SetshowJointable,
-   };
-
-  return (
+  const cardState = {
+    showJointable,
+    SetshowJointable,
+  };
+  // https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets
+  https: return (
     <>
       <div className=" mt-5 sm:mt-7 md:mt-9 lg:mt-12 games-container flex justify-around items-center max-w-7xl  mx-3 flex-wrap gap-3 xl:justify-between">
         <div className="teen-patti-container basis-full sm:basis-[40%] md:basis-[36%] lg:basis-[45%] space-y-1 sm:space-y-2 md:space-y-3 lg:space-y-4 xl:space-y-5 ">
           <Image
-            src={"/assets/landingPage/teen-patti.svg"}
+            src={
+              "https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/landingPage/teen-patti.svg"
+            }
             alt=""
             className="w-full"
             width={500}
@@ -51,7 +53,12 @@ const Games= ({ setTeenPattiGame }) => {
           </button>
         </div>
       </div>
-      {showJointable && <Shareinvite SetshowJointable={SetshowJointable} showJointable={false}  />}
+      {showJointable && (
+        <Shareinvite
+          SetshowJointable={SetshowJointable}
+          showJointable={false}
+        />
+      )}
     </>
   );
 };

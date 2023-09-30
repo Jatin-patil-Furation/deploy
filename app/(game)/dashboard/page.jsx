@@ -39,7 +39,9 @@ const Page = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showJointable, SetshowJointable] = useState(false);
   const [Createprivatetable, SetCreateprivatetable] = useState(false);
+   const [image, SetImage] = useState("");
   const [isClient, setIsClient] = useState(false);
+     const [loading, setLoading] = useState(false);
   const ToggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
@@ -169,7 +171,6 @@ const Page = () => {
       });
     }
   };
-
   const handleImageChange = async (e) => {
     try {
       const selectedFile = e.target.files && e.target.files[0];
@@ -180,14 +181,15 @@ const Page = () => {
       } else {
         SetImage(selectedFile);
       }
-      const filenam = selectedFile.name.split(".")[0];
+      // const filenam = selectedFile.name.split(".")[0];
+      const filenam = selectedFile.name;
       const action = await GetpresignedurlData(filenam)(dispatch);
       const preurl = action?.payload?.presignedurl;
 
       const res = await UpdatedPost(preurl, selectedFile)(dispatch);
-     
+      console.log("resawsupdated", res);
       const avatar = action?.payload?.presignedurl.split("?")[0];
-      // console.log("avatara", avatar);
+      console.log("avatara", avatar);
       const payload = {
         avatar: avatar,
       };
@@ -207,20 +209,20 @@ const Page = () => {
           }
         })
         .catch((err) => {
-          toast.error(err);
-           console.log(err);
+          console.log(err);
+          toast.success(err);
         });
     } catch (err) {
-      toast.error(err);
       console.error(err);
     }
   };
 
-  // const Admintrue = getuserinfo?.isAdmin;
+  const Admintrue = getuserinfo?.isAdmin;
 
-   const Admintrue =true
+  //  const Admintrue =true
 
   const handleUpdateprofile = () => {
+    setLoading(true)
     const {
       dateOfBirth,
       name,
@@ -260,11 +262,13 @@ const Page = () => {
         console.log(res);
         if (res.type === "USEREDIT_IMAGE_SUCESS") {
           toast.success("Updated data sucessfully");
+           setLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
         toast.success(err);
+         setLoading(false);
       });
   };
 
@@ -356,9 +360,7 @@ const Page = () => {
                       >
                         <div className="flex items-center gap-3 basis-[70%]">
                           <Image
-                            src={
-                              "/assets/drawer/users.svg"
-                            }
+                            src={"/assets/drawer/users.svg"}
                             alt="deposit icon"
                             width={50}
                             height={50}
@@ -775,7 +777,9 @@ const Page = () => {
                             onChange={handleImageChange}
                           />
                         </label>
-                        <p className=" text-center text-Secondary">Change Avatar</p>
+                        <p className=" text-center text-Secondary">
+                          Change Avatar
+                        </p>
                       </div>
                     </div>
                     <div className="user-edit  space-y-4 w-[95%] m-auto basis-[90%]">
@@ -796,7 +800,7 @@ const Page = () => {
                           type="email"
                           placeholder={getuserinfo?.email}
                           name="email"
-                          value={formData?.email}
+                          value={getuserinfo?.email}
                           onChange={handleInputChange}
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         />
@@ -807,7 +811,7 @@ const Page = () => {
                           type="number"
                           placeholder={getuserinfo?.phone?.toString()}
                           name="phone"
-                          value={formData?.phone?.toString()}
+                          value={getuserinfo?.phone?.toString()}
                           onChange={handleInputChange}
                           className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
                         />
@@ -894,7 +898,18 @@ const Page = () => {
                       onClick={handleUpdateprofile}
                       className="custom-gradient px-3 py-4 w-[90%] mx-auto my-3"
                     >
-                      update
+                      {loading ? (
+                        <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                          <Image
+                            src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                            alt="loader"
+                            width={200}
+                            height={100}
+                          />
+                        </div>
+                      ) : (
+                        "update"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -1049,9 +1064,7 @@ const Page = () => {
                         >
                           <div className="flex items-center gap-3 basis-[70%]">
                             <Image
-                              src={
-                                "/assets/drawer/users.svg"
-                              }
+                              src={"/assets/drawer/users.svg"}
                               alt="deposit icon"
                               width={50}
                               height={50}
@@ -1450,7 +1463,6 @@ const Page = () => {
                         <div>
                           <label>
                             <Image
-                              
                               src={getuserinfo?.avatar}
                               alt="avatar"
                               width={100}
@@ -1463,7 +1475,9 @@ const Page = () => {
                               onChange={handleImageChange}
                             />
                           </label>
-                          <p className="text-center text-Secondary">Change Avatar</p>
+                          <p className="text-center text-Secondary">
+                            Change Avatar
+                          </p>
                         </div>
                       </div>
                       <div className="user-edit   space-y-4 w-[90%] basis-[90%]">
@@ -1483,7 +1497,7 @@ const Page = () => {
                           <input
                             type="email"
                             placeholder={getuserinfo?.email}
-                            value={formData?.email}
+                            value={getuserinfo?.email}
                             name="email"
                             onChange={handleInputChange}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1494,7 +1508,7 @@ const Page = () => {
                           <input
                             type="number"
                             placeholder={getuserinfo?.phone?.toString()}
-                            value={formData?.phone?.toString()}
+                            value={getuserinfo?.phone?.toString()}
                             name="phone"
                             onChange={handleInputChange}
                             className="placeholder:text-GreyLight px-2 py-4 rounded-sm bg-GreyDark outline-none"
@@ -1583,7 +1597,19 @@ const Page = () => {
                         onClick={handleUpdateprofile}
                         className="custom-gradient px-3 py-4 w-[90%] mx-auto my-3"
                       >
-                        update
+                        {loading ? (
+                          <div className="w-[50%] flex items-center h-[15px] m-auto  ">
+                            <Image
+                              src={`https://s3.us-east-2.amazonaws.com/sikkaplay.com-assets/assets/users/loading.gif`}
+                              alt="loader"
+                              width={200}
+                              height={100}
+                            />
+                          </div>
+                        ) : (
+                          "update"
+                        )}
+                      
                       </button>
                     </div>
                   </div>
