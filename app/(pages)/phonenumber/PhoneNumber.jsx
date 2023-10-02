@@ -226,35 +226,39 @@ const PhoneNumber = () => {
 
   const PhNumber = selectedCountryCode + phoneNumber;
 
+
   const handleGetOTP = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     if (!isChecked) {
-      toast.success("min age 18 Check if you are 18");
-    } else {
-      setError("");
-      if (phoneNumber === "" || phoneNumber === undefined) {
-        toast.error("number is Required");
-        return setError("Please enter a valid phone number!");
-      } else if (phoneNumber.length < 10) {
-        toast.error("check number is Required");
-      } else if (phoneNumber.length > 10) {
-        toast.error("Phone number is not more than 10 digit");
-      }
-      try {
-        const res = await setUpCaptcha(PhNumber);
-        toast.success("OTP Sent Succesfully");
-        setConfirmationResult(res);
-        setTemp(true);
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-        setError(err.message);
-        toast.error(err.message);
-        setLoading(false);
-      }
+      toast.error("Please confirm that you are 18 or older.");
+      setLoading(false);
+      return; // Exit the function if the age check fails
+    }
+
+    setError("");
+
+    if (!phoneNumber || phoneNumber.length !== 10) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      setLoading(false);
+      return setError("Please enter a valid phone number!");
+    }
+
+    try {
+      const res = await setUpCaptcha(PhNumber); // Fixed variable name
+      toast.success("OTP Sent Successfully");
+      setConfirmationResult(res);
+      setTemp(true);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
   };
+
 
   const handleverifyOTP = async (confirmationResult, adotp) => {
     setLoading(true);
@@ -263,14 +267,16 @@ const PhoneNumber = () => {
 
       console.log("usercre", userCredential);
       router.push("/createuser");
-      toast.success("Verify sucessfully");
-      setLoading(false);
+      toast.success("Verified successfully");
     } catch (error) {
-      toast.error(error);
-      console.log(error);
+      console.error("Error verifying OTP:", error);
+      console.log(err.message)
+      toast.error("Error verifying OTP. Please try again.");
+    } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <>

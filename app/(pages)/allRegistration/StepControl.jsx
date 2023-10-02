@@ -72,7 +72,7 @@ const StepControl = ({
   );
    const [registrationError, setRegistrationError] = useState(null);
 
-  console.log("usersingupres", usersignupdata);
+  // console.log("usersingupres", usersignupdata);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -98,76 +98,76 @@ const StepControl = ({
 
   console.log("formdata", formData);
 
-  
  
   const handlelogin = () => {
     setLoading(true);
-
     const { password, confirmpassword } = formData;
 
     if (password.trim() === "" || confirmpassword.trim() === "") {
       toast.error("Please fill in both password fields.");
-      setLoading(false); // Reset loading state
+      setLoading(false);
       return;
     }
 
     if (password !== confirmpassword) {
       toast.error("Passwords do not match");
-      setLoading(false); // Reset loading state
+      setLoading(false);
       return;
     }
 
     if (password.length < 6) {
       toast.error("Password must be greater than 6 characters");
-      setLoading(false); // Reset loading state
+      setLoading(false);
       return;
     }
 
     createUserWithEmailAndPassword(auth, formData.email, formData.password)
       .then((res) => {
+        console.log("firebase res",res)
         console.log("firebase", res?.user?.accessToken);
+        if (res?.user) {
+          // Redirect the user right after Firebase authentication
+            toast.success("Signup successful");
+          router.push("/login");
+        
+          const senddatabackend = {
+            name: formData.name,
+            dateOfBirth: formData.dateOfBirth,
+            email: formData.email,
+            phone: formData.phone,
+            gender: formData.gender,
+            country: formData.country,
+            city: formData.city,
+            postalCode: formData.postalCode,
+            address: formData.address,
+          };
 
-        const senddatabackend = {
-          name: formData.name,
-          dateOfBirth: formData.dateOfBirth,
-          email: formData.email,
-          phone: formData.phone,
-          gender: formData.gender,
-          country: formData.country,
-          city: formData.city,
-          postalCode: formData.postalCode,
-          address: formData.address,
-        };
-
-        if (res?.user?.accessToken) {
           dispatch(Signuppost(senddatabackend))
             .then((res) => {
               console.log("res", res);
 
               if (
-                res.type === "SIGNUPUSERSUCESS" &&
+                res.type === "SIGNUPUSERSUCCESS" &&
                 res.payload.msg === "User created successfully"
               ) {
-                toast.success("Signup Success");
-                router.push("/login");
-                toast.success("Signup Success");
-              } else {
-                toast.error("Something went wrong");
-              }
+                // Success message for backend request (if needed)
+                toast.success(" Signup successful");
+              } 
             })
             .catch((err) => {
-              console.error(err);
+              console.error("from backend", err);
               toast.error(err.message);
             })
             .finally(() => {
-              setLoading(false); // Reset loading state
+              setLoading(false);
             });
         }
       })
       .catch((error) => {
         const errorMessage = error.message;
         const errorCode = error.code;
-
+         console.log("errorcode",errorCode)
+         console.log("errmessage",errorMessage)
         SetCurrentStep(1);
         setFormData({
           name: "",
@@ -182,11 +182,101 @@ const StepControl = ({
           password: "",
           confirmpassword: "",
         });
-
-        toast.error(errorMessage);
-        setLoading(false); // Reset loading state
+         if (error.code === "auth/email-already-in-use") {
+           toast.error("User already exists with this email.");
+         } else {
+           toast.error("An error occurred during signup.");
+         }
+        // toast.error(errorCode);
+        setLoading(false);
       });
   };
+
+ 
+  // const handlelogin = () => {
+  //   setLoading(true);
+  //   const { password, confirmpassword } = formData;
+
+  //   if (password.trim() === "" || confirmpassword.trim() === "") {
+  //     toast.error("Please fill in both password fields.");
+  //     setLoading(false); // Reset loading state
+  //     return;
+  //   }
+
+  //   if (password !== confirmpassword) {
+  //     toast.error("Passwords do not match");
+  //     setLoading(false); // Reset loading state
+  //     return;
+  //   }
+
+  //   if (password.length < 6) {
+  //     toast.error("Password must be greater than 6 characters");
+  //     setLoading(false); // Reset loading state
+  //     return;
+  //   }
+
+  //   createUserWithEmailAndPassword(auth, formData.email, formData.password)
+  //     .then((res) => {
+  //       console.log("firebase", res?.user?.accessToken);
+  //       const senddatabackend = {
+  //         name: formData.name,
+  //         dateOfBirth: formData.dateOfBirth,
+  //         email: formData.email,
+  //         phone: formData.phone,
+  //         gender: formData.gender,
+  //         country: formData.country,
+  //         city: formData.city,
+  //         postalCode: formData.postalCode,
+  //         address: formData.address,
+  //       };
+
+  //       if (res?.user?.accessToken) {
+  //         dispatch(Signuppost(senddatabackend))
+  //           .then((res) => {
+  //             console.log("res", res);
+
+  //             if (
+  //               res.type === "SIGNUPUSERSUCESS" &&
+  //               res.payload.msg === "User created successfully"
+  //             ) {
+  //               toast.success("Signup Success");
+  //               router.push("/login");
+  //               toast.success("Signup Success");
+  //             } else {
+  //               toast.error("Something went wrong");
+  //             }
+  //           })
+  //           .catch((err) => {
+  //             console.error("from baclend", err);
+  //             // toast.error(err.message);
+  //           })
+  //           .finally(() => {
+  //             setLoading(false); // Reset loading state
+  //           });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       const errorMessage = error.message;
+  //       const errorCode = error.code;
+        
+  //       SetCurrentStep(1);
+  //       setFormData({
+  //         name: "",
+  //         email: "",
+  //         phone: "",
+  //         dateOfBirth: "",
+  //         gender: "",
+  //         address: "",
+  //         country: "",
+  //         city: "",
+  //         postalCode: "",
+  //         password: "",
+  //         confirmpassword: "",
+  //       });
+  //       toast.error(errorCode);
+  //       setLoading(false); // Reset loading state
+  //     });
+  // };
 
 
   const handleNextClick = () => {
@@ -612,77 +702,89 @@ const StepControl = ({
         }
 export default StepControl;
 
- // const handlelogin = () => {
-  //   setLoading(true)
-  //   const { password, confirmpassword } = formData;
-  //   if (password.trim() === "" || confirmpassword.trim() === "") {
-  //     toast.error("Please fill in both password fields.");
-  //     return false;
-  //   }
-  //   if (password !== confirmpassword) {
-  //     toast.error("Passwords do not match");
-  //     return false;
-  //   }
-  //   if(password.length<6  ){
-  //       toast.error("Password must be greater then 6 character");
-  //       return false
-  //   }
+// const handlelogin = () => {
+//   setLoading(true);
 
-  //   createUserWithEmailAndPassword(auth, formData.email, formData.password)
-  //     .then((res) => {
-  //        console.log("fiire",res)
-  //        console.log("firebase", res?.user?.accessToken);
-  //       const senddatabackend = {
-  //         name: formData.name,
-  //         dateOfBirth: formData.dateOfBirth,
-  //         email: formData.email,
-  //         phone: formData.phone,
-  //         gender: formData.gender,
-  //         country: formData.country,
-  //         city: formData.city,
-  //         postalCode: formData.postalCode,
-  //         address: formData.address,
-  //       };
-  //        if(res?.user?.accessToken){
-  //          dispatch(Signuppost(senddatabackend))
-  //            .then((res) => {
-  //              console.log("res", res);
-             
-  //               if (res.type === "SIGNUPUSERSUCESS" &&
-  //               res.payload.msg==="User created successfully"
-  //               ) {
-  //                 toast.success("Signup Sucesss");
-  //                  router.push("/login");
-  //                   setLoading(false);
-  //               }else{
-  //                 toast.error("Something went wrong");
-  //               }
-  //             })
-  //            .catch((err) => {
-  //               console.log(err);
-  //                 toast.error(err);
-  //                  setLoading(false);
-  //            });
-  //        }
-  //     })
-  //    .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //         SetCurrentStep(1);
-  //        setFormData({
-  //          name: "",
-  //          email: "",
-  //          phone: "",
-  //          dateOfBirth: "",
-  //          gender: "",
-  //          address: "",
-  //          country: "",
-  //          city: "",
-  //          postalCode: "",
-  //          password: "",
-  //          confirmpassword: "",
-  //        });
-  //         setLoading(false);
-  //          toast.error(errorCode);
-  //     })
-  // };
+//   const { password, confirmpassword } = formData;
+
+//   if (password.trim() === "" || confirmpassword.trim() === "") {
+//     toast.error("Please fill in both password fields.");
+//     setLoading(false); // Reset loading state
+//     return;
+//   }
+
+//   if (password !== confirmpassword) {
+//     toast.error("Passwords do not match");
+//     setLoading(false); // Reset loading state
+//     return;
+//   }
+
+//   if (password.length < 6) {
+//     toast.error("Password must be greater than 6 characters");
+//     setLoading(false); // Reset loading state
+//     return;
+//   }
+
+//   createUserWithEmailAndPassword(auth, formData.email, formData.password)
+//     .then((res) => {
+//       console.log("firebase", res?.user?.accessToken);
+
+//       const senddatabackend = {
+//         name: formData.name,
+//         dateOfBirth: formData.dateOfBirth,
+//         email: formData.email,
+//         phone: formData.phone,
+//         gender: formData.gender,
+//         country: formData.country,
+//         city: formData.city,
+//         postalCode: formData.postalCode,
+//         address: formData.address,
+//       };
+
+//       if (res?.user?.accessToken) {
+//         dispatch(Signuppost(senddatabackend))
+//           .then((res) => {
+//             console.log("res", res);
+
+//             if (
+//               res.type === "SIGNUPUSERSUCESS" &&
+//               res.payload.msg === "User created successfully"
+//             ) {
+//               toast.success("Signup Success");
+//               router.push("/login");
+//               toast.success("Signup Success");
+//             } else {
+//               toast.error("Something went wrong");
+//             }
+//           })
+//           .catch((err) => {
+//             console.error("from baclend", err);
+//             // toast.error(err.message);
+//           })
+//           .finally(() => {
+//             setLoading(false); // Reset loading state
+//           });
+//       }
+//     })
+//     .catch((error) => {
+//       const errorMessage = error.message;
+//       const errorCode = error.code;
+
+//       SetCurrentStep(1);
+//       setFormData({
+//         name: "",
+//         email: "",
+//         phone: "",
+//         dateOfBirth: "",
+//         gender: "",
+//         address: "",
+//         country: "",
+//         city: "",
+//         postalCode: "",
+//         password: "",
+//         confirmpassword: "",
+//       });
+//       toast.error(errorCode);
+//       setLoading(false); // Reset loading state
+//     });
+// };
