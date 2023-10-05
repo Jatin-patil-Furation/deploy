@@ -419,3 +419,78 @@ const StepControl = ({ currentStep, SetCurrentStep, steps }) => {
   );
 };
 export default StepControl;
+
+ // const handlelogin = () => {
+  //   setLoading(true)
+  //   const { password, confirmpassword } = formData;
+  //   if (password.trim() === "" || confirmpassword.trim() === "") {
+  //     toast.error("Please fill in both password fields.");
+  //     return false;
+  //   }
+  //   if (password !== confirmpassword) {
+  //     toast.error("Passwords do not match");
+  //     return false;
+  //   }
+  //   if(password.length<6  ){
+  //       toast.error("Password must be greater then 6 character");
+  //       return false
+  //   }
+
+  //   createUserWithEmailAndPassword(auth, formData.email, formData.password)
+  //     .then((res) => {
+  //        console.log("fiire",res)
+  //        console.log("firebase", res?.user?.accessToken);
+  //       const senddatabackend = {
+  //         name: formData.name,
+  //         dateOfBirth: formData.dateOfBirth,
+  //         email: formData.email,
+  //         phone: formData.phone,
+  //         gender: formData.gender,
+  //         country: formData.country,
+  //         city: formData.city,
+  //         postalCode: formData.postalCode,
+  //         address: formData.address,
+  //       };
+  //        if(res?.user?.accessToken){
+  //          dispatch(Signuppost(senddatabackend))
+  //            .then((res) => {
+  //              console.log("res", res);
+             
+  //               if (res.type === "SIGNUPUSERSUCESS" &&
+  //               res.payload.msg==="User created successfully"
+  //               ) {
+  //                 toast.success("Signup Sucesss");
+  //                  router.push("/login");
+  //                   setLoading(false);
+  //               }else{
+  //                 toast.error("Something went wrong");
+  //               }
+  //             })
+  //            .catch((err) => {
+  //               console.log(err);
+  //                 toast.error(err);
+  //                  setLoading(false);
+  //            });
+  //        }
+  //     })
+  //    .catch((error) => {
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //         SetCurrentStep(1);
+  //        setFormData({
+  //          name: "",
+  //          email: "",
+  //          phone: "",
+  //          dateOfBirth: "",
+  //          gender: "",
+  //          address: "",
+  //          country: "",
+  //          city: "",
+  //          postalCode: "",
+  //          password: "",
+  //          confirmpassword: "",
+  //        });
+  //         setLoading(false);
+  //          toast.error(errorCode);
+  //     })
+  // };

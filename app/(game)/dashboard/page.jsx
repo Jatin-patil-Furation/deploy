@@ -139,6 +139,7 @@ const Page = () => {
     postalCode: "",
   });
 
+
   useEffect(() => {
     if (getuserinfo) {
       setFormData({
@@ -181,6 +182,7 @@ const Page = () => {
         SetImage(selectedFile);
       }
      
+      // const filenam = selectedFile.name.split(".")[0];
       const filenam = selectedFile.name;
       const action = await GetpresignedurlData(filenam)(dispatch);
       const preurl = action?.payload?.presignedurl;
