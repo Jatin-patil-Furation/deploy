@@ -32,6 +32,9 @@ const BannedPlayers = ({ setLogoutModal }: any) => {
     const [showUnblock, setUnblock] = useState(false);
 
     return (
+           <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#111111] opacity-50"></div>
+ 
         <div>
 
             {!showUnblock ? (
@@ -77,7 +80,7 @@ const BannedPlayers = ({ setLogoutModal }: any) => {
             )}
 
         </div>
-
+    </div>
     )
 }
 

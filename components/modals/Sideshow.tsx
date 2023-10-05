@@ -21,6 +21,9 @@ const SideShow = ({ handleResponseSideShowCancel, handleResponseSideShowAccept }
   }, [seconds]);
 
   return (
+       <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#111111] opacity-50"></div>
+ 
     <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-Background py-3 px-10 sm:py-5  md:py-7 lg:py-9 flex flex-col gap-5 items-center   z-[100]">
       <p
         className="text-center text-base 
@@ -51,6 +54,7 @@ const SideShow = ({ handleResponseSideShowCancel, handleResponseSideShowAccept }
           Accept
         </button>
       </div>
+    </div>
     </div>
   );
 };

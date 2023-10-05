@@ -112,6 +112,9 @@ const AccountManagement = ({ setAccountMangement }: any) => {
   }
 
   return (
+       <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#111111] opacity-50"></div>
+ 
     <div
       className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-x-hidden bg-Background  flex flex-col gap-3 items-center z-[100] w-[75%] ${
         !addBalance && !withdrawBalance && " h-[80%] overflow-y-auto "
@@ -233,6 +236,7 @@ const AccountManagement = ({ setAccountMangement }: any) => {
           {/* <button onClick={closeModal}>Close Modal</button> */}
         </div>
       )}
+    </div>
     </div>
   );
 };

@@ -48,6 +48,9 @@ const Deposit: React.FC<DepositProps> = ({ setDeposit }) => {
   };
 
   return (
+       <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#111111] opacity-50"></div>
+ 
     <div>
       <div
         className={`w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-Background rounded-b-md z-[100]`}
@@ -101,6 +104,7 @@ const Deposit: React.FC<DepositProps> = ({ setDeposit }) => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -32,6 +32,9 @@ const Joinmodal: React.FC<CardState> = ({ Setjoinprivatetable }) => {
   console.log(privateTableKey);
 
   return (
+       <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#111111] opacity-50"></div>
+ 
     <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-Background  flex flex-col gap-3 items-center   z-[100] w-[75%] sm:w-[40%] md:w-[30%] lg:w-[30%] ">
       <button
         className="relative custom-gradient py-3 px-4 w-full rounded-t-sm rounded-b-none"
@@ -78,6 +81,7 @@ const Joinmodal: React.FC<CardState> = ({ Setjoinprivatetable }) => {
         </div>
       </div>
       <Toast />
+    </div>
     </div>
   );
 };
