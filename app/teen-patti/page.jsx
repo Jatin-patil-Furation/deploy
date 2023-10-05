@@ -16,12 +16,84 @@ const socket = io("https://socketofteenpatti.onrender.com/", {
 import Shareinvite from "@/components/modals/Shareinvite";
 import { useDispatch, useSelector } from "react-redux";
 import { GetloggedData } from "@/redux/AppReducer/Action";
+const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 15;
+const ALERT_THRESHOLD = 10;
 
+const COLOR_CODES = {
+  info: {
+    color: "green",
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD,
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD,
+  },
+};
+
+const TIME_LIMIT = 26;
 const LandscapePage = () => {
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [timerInterval, setTimerInterval] = useState(null);
+  const [pathColor, setPathColor] = useState(COLOR_CODES.info.color);
+  console.log("timeleft", timeLeft);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timeLeft <= TIME_LIMIT) {
+        setTimeLeft((prev) => prev + 1);
+      } else {
+        clearInterval(interval);
+      }
+      setCircleDasharray();
+      setRemainingPathColor(timeLeft);
+    }, 1000);
+
+    setTimerInterval(interval);
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [timeLeft]);
+
+  const setRemainingPathColor = (timeLeft) => {
+    const { alert, warning, info } = COLOR_CODES;
+    const pathRemaining = document.getElementById("base-timer-path-remaining");
+    if (pathRemaining) {
+      if (timeLeft <= alert.threshold) {
+        pathRemaining.classList.remove(alert.color, warning.color);
+        pathRemaining.classList.add(info.color);
+      } else if (timeLeft > warning.threshold) {
+        pathRemaining.classList.remove(info.color, info.color);
+        pathRemaining.classList.add(alert.color);
+      } else {
+        pathRemaining.classList.remove(alert.color, warning.color);
+        pathRemaining.classList.add(warning.color);
+      }
+    }
+  };
+
+  const calculateTimeFraction = () => {
+    const rawTimeFraction = timeLeft / TIME_LIMIT;
+    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+  };
+
+  const setCircleDasharray = () => {
+    const circleDasharray = `${(
+      calculateTimeFraction() * FULL_DASH_ARRAY
+    ).toFixed(0)} 283`;
+
+    const pathRemaining = document.getElementById("base-timer-path-remaining");
+
+    if (pathRemaining) {
+      pathRemaining.setAttribute("stroke-dasharray", circleDasharray);
+    }
+  };
   const dispatch = useDispatch();
   const Loggeduser = useSelector((store) => store.AppReducer.Userloggeddata);
-  // const Loggeduser = JSON.parse(localStorage.getItem("Loggeduser"));
-  console.log(Loggeduser);
+
   const [notification, setNotification] = useState(null);
   const [gameStartCounter, setGameStartCounter] = useState(null);
   const [shareinvitecode, SetshareinviteCode] = useState(true);
@@ -971,34 +1043,107 @@ const LandscapePage = () => {
               </div>
 
               {/* player */}
-              <div className="absolute left-1/2 bottom-[-6rem]  lg:bottom-[-4.3rem] mxl:bottom-[-5rem] transform -translate-x-1/2 -translate-y-1/2   ">
-                <div className="relative w-full h-full">
-                  <img
-                    src={Loggeduser?.avatar}
-                    alt="avatar"
-                    width={50}
-                    height={50}
-                    className={`w-28 h-28 lg:w-36 lg:h-36 mxl:w-40 mxl:h-40 2xl:w-44 2xl:h-44  rounded-full border-${
-                      slotPlayerMap?.[playerSlotIndex]?.winner
-                        ? "yellow-200 shadow-2xl shadow-yellow-300 "
-                        : "yellow-400"
-                    }  border-4 `}
-                  />
-                  {slotPlayerMap?.[playerSlotIndex]?.winner && (
-                    <img
-                      src={"/assets/game/winning.gif"}
-                      alt="win GIF"
-                      width={200}
-                      height={200}
-                      className=" absolute w-80  h-full bottom-0 z-40"
-                    />
-                  )}
-                </div>
-                {slotPlayerMap[+playerSlotIndex]?.packed && (
-                  <div className="absolute w-full h-[100%] rounded-full bg-GreyLight opacity-80 font-bold py-1 xl:py-0 bottom-0   left-0 text-center text-xs lg:text-base  flex justify-center items-center ">
-                    <p>packed</p>
+              <div
+                className="absolute  left-1/2 bottom-[-6rem]  lg:bottom-[-4.3rem] 
+              mxl:bottom-[-5rem] transform -translate-x-1/2 -translate-y-1/2   "
+              >
+                {timeLeft == 28 ? (
+
+                 <div>
+                     <div className="relative w-full h-full">
+                       <img
+                        src={Loggeduser?.avatar}
+                        alt="avatar"
+                        width={50}
+                        height={50}
+                        className={`w-28 h-28 lg:w-36 lg:h-36 mxl:w-40 mxl:h-40 2xl:w-44 2xl:h-44  rounded-full border-${
+                          slotPlayerMap?.[playerSlotIndex]?.winner
+                            ? "yellow-200 shadow-2xl shadow-yellow-300 "
+                            : "yellow-400"
+                        }  border-4 `}
+                      />
+                      {slotPlayerMap?.[playerSlotIndex]?.winner && (
+                        <img
+                          src={"/assets/game/winning.gif"}
+                          alt="win GIF"
+                          width={200}
+                          height={200}
+                          className=" absolute w-80  h-full bottom-0 z-40"
+                        />
+                      )}
+                    </div>
+
+                    {slotPlayerMap[+playerSlotIndex]?.packed && (
+                      <div className="absolute w-full h-[100%] rounded-full bg-GreyLight opacity-80 font-bold py-1 xl:py-0 bottom-0   left-0 text-center text-xs lg:text-base  flex justify-center items-center ">
+                        <p>packed</p>
+                      </div>
+                    )}
+                  </div> 
+                 ) : ( 
+
+                <div className="relative  right-1 sm:right-24 md:right-14 mb-[-1rem] border-red-900 w-10 m-auto">
+                  <div
+                    className="base-timer   w-32 h-32  
+                   sm:w-30 sm:h-30
+                  md:w-36 md:h-36 lg:w-40 lg:h-40 mxl:w-40 mxl:h-40 2xl:w-44 2xl:h-44   m-auto"
+                  >
+                    <svg
+                      className="base-timer__svg"
+                      viewBox="0 0 100 100"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g className="base-timer__circle">
+                        <circle
+                          className="base-timer__path-elapsed"
+                          cx="50"
+                          cy="50"
+                          r="45"
+                        ></circle>
+                        <path
+                          id="base-timer-path-remaining"
+                          strokeDasharray="283"
+                          className={`base-timer__path-remaining ${pathColor}`}
+                          d="M 50, 50 m -45, 0 a 45,45 0 1,0 90,0 a 45,45 0 1,0 -90,0"
+                        ></path>
+                      </g>
+                    </svg>
+                    <div
+                      id="base-timer-label"
+                      className="relative  border-yellow-500 "
+                    >
+                      <div
+                        className="relative top-[-103px]   border-green-900 
+                        
+                       w-full h-full  m-auto"
+                      >
+                        <img
+                          src={"/assets/drawer/user-avatar.svg"}
+                          alt="avatar"
+                          className={` absolute m-auto
+                          w-24 h-24  sm:w-26 sm:h-26
+                          md:w-28 md:h-28
+                          lg:w-32 lg:h-32 
+                          left-[.9rem] 
+                          top-[-.6rem] 
+                           p-1
+                          sm:left-[1rem] 
+                          md:left-[1rem]
+                           lg:left-[1rem]
+                          sm:top-[-.6rem] 
+                          md:top-[-1.6rem] lg:top-[-2.55rem] items-center
+                           rounded-full yellow-200 shadow-2xl shadow-yellow-300 
+                            md:border-6
+                            sm:border-2
+                           border-4`}
+                        />
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
+
+                 )} 
+
+                {/* ---------------------- */}
               </div>
             </div>
             <Cardanimate

@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
 import orline from "../../../public/assets/users/orline.svg";
 import Image from "next/image";
-import Applelogo from "../../../public/assets/users/Apple.svg";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { auth } from "../../Firebase/firebase";
@@ -13,7 +12,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import Toast from "../notification/Toast";
 
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Loginpost } from "@/redux/AuthReducer/Action";
 
 
@@ -112,65 +111,7 @@ if (email.trim() === "" || password.trim() === "") {
     // console.log(formData);
   };
 
-   const handleGoogleLogin = async () => {
-     if (!isChecked) {
-       toast.success("min age 18 Check if you are 18");
-     } else {
-       try {
-         const user = await googleSignIn();
-         console.log(user);
-
-         const payload = {
-           name: user?.user?.displayName,
-           email: user?.user?.email,
-           avatar: user?.user?.photoURL,
-         };
-         //  console.log("sendbackd",payload)
-         const loginuser = {
-           email: user?.user?.email,
-         };
-         console.log("loginuser", loginuser);
-         Signuppost(payload)(dispatch)
-           .then((res) => {
-             console.log("userbackendsendresponse", res);
-
-             Loginpost(loginuser)(dispatch)
-               .then((res) => {
-                 console.log("res", res);
-                 if (
-                   res?.type === "LOGINUSERSUCESS" &&
-                   res?.payload.msg ===
-                     "login successful, please take the token and keep it safe"
-                 ) {
-                   localStorage.setItem(
-                     "Loggeduser",
-                     JSON.stringify(res?.payload?.resData)
-                   );
-                   localStorage.setItem(
-                     "token",
-                     JSON.stringify(res?.payload?.token)
-                   );
-                   toast.success("Signup Sucesssful");
-                   router.push("/dashboard");
-                 } else {
-                   toast.error("something went wrong");
-                 }
-               })
-               .catch((err) => {
-                 console.log(err);
-                 toast.error(err);
-               });
-           })
-           .catch((err) => {
-             console.log(err);
-             toast.error(err);
-           });
-       } catch (error) {
-         console.log(error);
-         toast.error(error);
-       }
-     }
-   };
+ 
 
   return (
     <div className="w-[100%] px-2">
@@ -255,7 +196,7 @@ if (email.trim() === "" || password.trim() === "") {
               "Login"
             )}
 
-            {/* Login */}
+          
           </button>
         </div>
       </form>
@@ -263,17 +204,7 @@ if (email.trim() === "" || password.trim() === "") {
         <Image src={orline} alt="orline" />
       </div>
 
-      <div className="py-2">
-        <div className=" py-2  bg-[#1E1E1E] flex items-center justify-center border-yellow-600 rounded-md">
-          <div className="py-1 px-2 flex justify-between gap-2 border-red-600">
-            <Image src={Applelogo} alt="Applelogo" />
-            <h2 className="text-white text-center m-auto text-sm">
-              {" "}
-              Continue with Apple{" "}
-            </h2>
-          </div>
-        </div>
-      </div>
+      
 
       <div className="py-5 px-2 flex items-center justify-center border-yellow-600 rounded-md">
         <div className="flex justify-between gap-2 border-red-600">

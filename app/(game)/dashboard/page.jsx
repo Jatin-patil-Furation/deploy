@@ -139,7 +139,6 @@ const Page = () => {
     postalCode: "",
   });
 
-
   useEffect(() => {
     if (getuserinfo) {
       setFormData({

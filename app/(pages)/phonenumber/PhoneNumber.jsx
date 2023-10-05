@@ -11,7 +11,11 @@ import { googleSignIn, setUpCaptcha } from "../../Google/Google";
 import Toast from "../notification/Toast";
 import { useDispatch } from "react-redux";
 
-import { Loginpost, Signuppost } from "@/redux/AuthReducer/Action";
+import {
+  Loginpost,
+  Phoneloginpost,
+  Signuppost,
+} from "@/redux/AuthReducer/Action";
 import Link from "next/link";
 
 const countryCodes = [
@@ -126,9 +130,9 @@ const PhoneNumber = () => {
         const user = await googleSignIn();
         console.log(user);
 
-         const loginuser = {
-           email: user?.user?.email,
-         };
+        const loginuser = {
+          email: user?.user?.email,
+        };
 
         if (user?.user?.accessToken) {
           const payload = {
@@ -146,64 +150,64 @@ const PhoneNumber = () => {
                 res?.type === "SIGNUPUSERSUCESS" &&
                 res?.payload?.msg === "User created successfully"
               ) {
-                 Loginpost(loginuser)(dispatch)
-                    .then((res) => {
-                      console.log("res", res);
-                      if (
-                        res?.type === "LOGINUSERSUCESS" &&
-                        res?.payload.msg ===
-                          "login successful, please take the token and keep it safe"
-                      ) {
-                        localStorage.setItem(
-                          "Loggeduser",
-                          JSON.stringify(res?.payload?.resData)
-                        );
-                        localStorage.setItem(
-                          "token",
-                          JSON.stringify(res?.payload?.token)
-                        );
-                        toast.success("Signup Sucesssful");
-                        router.push("/dashboard");
-                      } else {
-                        toast.error("something went wrong");
-                      }
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      toast.error(err);
-                    });
-              } 
+                Loginpost(loginuser)(dispatch)
+                  .then((res) => {
+                    console.log("res", res);
+                    if (
+                      res?.type === "LOGINUSERSUCESS" &&
+                      res?.payload.msg ===
+                        "login successful, please take the token and keep it safe"
+                    ) {
+                      localStorage.setItem(
+                        "Loggeduser",
+                        JSON.stringify(res?.payload?.resData)
+                      );
+                      localStorage.setItem(
+                        "token",
+                        JSON.stringify(res?.payload?.token)
+                      );
+                      toast.success("Signup Sucesssful");
+                      router.push("/dashboard");
+                    } else {
+                      toast.error("something went wrong");
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    toast.error(err);
+                  });
+              }
 
               if (
                 typeof res === "undefined" ||
                 typeof res.status === "undefined"
               ) {
                 Loginpost(loginuser)(dispatch)
-                     .then((res) => {
-                      console.log("login",res)
-                       if (
-                         res?.type === "LOGINUSERSUCESS" &&
-                         res?.payload.msg ===
-                           "login successful, please take the token and keep it safe"
-                       ) {
-                         localStorage.setItem(
-                           "Loggeduser",
-                           JSON.stringify(res?.payload?.resData)
-                         );
-                         localStorage.setItem(
-                           "token",
-                           JSON.stringify(res?.payload?.token)
-                         );
-                         toast.success("Signup Sucesssful");
-                         router.push("/dashboard");
-                       } else {
-                         toast.error("something went wrong");
-                       }
-                     })
-                     .catch((err) => {
-                       console.log(err);
-                       toast.error(err);
-                     });
+                  .then((res) => {
+                    console.log("login", res);
+                    if (
+                      res?.type === "LOGINUSERSUCESS" &&
+                      res?.payload.msg ===
+                        "login successful, please take the token and keep it safe"
+                    ) {
+                      localStorage.setItem(
+                        "Loggeduser",
+                        JSON.stringify(res?.payload?.resData)
+                      );
+                      localStorage.setItem(
+                        "token",
+                        JSON.stringify(res?.payload?.token)
+                      );
+                      toast.success("Signup Sucesssful");
+                      router.push("/dashboard");
+                    } else {
+                      toast.error("something went wrong");
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    toast.error(err);
+                  });
               }
             })
             .catch((err) => {
@@ -212,11 +216,11 @@ const PhoneNumber = () => {
             });
         }
       } catch (error) {
-           const errorCode = error.code;
-           const errorMessage = error.message;
-           toast.error(errorCode);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorCode);
         console.error("Error during Google sign-in:", error);
-       }
+      }
     }
   };
 
@@ -225,7 +229,18 @@ const PhoneNumber = () => {
   }, [activeotpindex]);
 
   const PhNumber = selectedCountryCode + phoneNumber;
+  console.log("phone", PhNumber);
+  console.log(phoneNumber);
 
+  const Loggeduser = () => {
+    const datauser = localStorage.getItem("Loggeduser");
+    const logedinfo = datauser ? JSON.parse(datauser) : null;
+    if (!logedinfo) {
+      router.push("/login");
+    } else {
+      router.push("/dashboard");
+    }
+  };
 
   const handleGetOTP = async (e) => {
     e.preventDefault();
@@ -236,7 +251,6 @@ const PhoneNumber = () => {
       setLoading(false);
       return; // Exit the function if the age check fails
     }
-
     setError("");
 
     if (!phoneNumber || phoneNumber.length !== 10) {
@@ -249,9 +263,12 @@ const PhoneNumber = () => {
       const res = await setUpCaptcha(PhNumber); // Fixed variable name
       toast.success("OTP Sent Successfully");
       setConfirmationResult(res);
+
       setTemp(true);
+      setLoading(false);
     } catch (err) {
       console.error(err);
+      setLoading(false);
       setError(err.message);
       toast.error(err.message);
     } finally {
@@ -259,24 +276,47 @@ const PhoneNumber = () => {
     }
   };
 
-
   const handleverifyOTP = async (confirmationResult, adotp) => {
     setLoading(true);
     try {
       const userCredential = await confirmationResult.confirm(adotp);
 
       console.log("usercre", userCredential);
-      router.push("/createuser");
-      toast.success("Verified successfully");
+      // router.push("/createuser");
+      const payload = {
+        phone: phoneNumber,
+      };
+       localStorage.setItem("userphone",JSON.stringify(payload))
+      dispatch(Phoneloginpost(payload))
+        .then((res) => {
+          console.log("res", res);
+          if (res?.type === "PHONELOGINUSERSUCESS") {
+            localStorage.setItem(
+              "Loggeduser",
+              JSON.stringify(res?.payload?.resData)
+            );
+            localStorage.setItem("token", JSON.stringify(res?.payload?.token));
+            setLoading(false);
+            toast.success("Verified successfully");
+            Loggeduser();
+          } else {
+            router.push("/createuser");
+            toast.success("Verified successfully");
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("err", err);
+          setLoading(false);
+        });
     } catch (error) {
       console.error("Error verifying OTP:", error);
-      console.log(err.message)
+      console.log(err.message);
       toast.error("Error verifying OTP. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <>
@@ -440,18 +480,6 @@ const PhoneNumber = () => {
                   <h2 className="text-white text-center m-auto text-sm">
                     {" "}
                     Continue with Google{" "}
-                  </h2>
-                </div>
-              </div>
-            </div>
-
-            <div className="py-2">
-              <div className=" py-2 hover:cursor-pointer  bg-[#1E1E1E] flex items-center justify-center border-yellow-600 rounded-md">
-                <div className="py-1 px-2 flex justify-between gap-2 border-red-600">
-                  <Image src={Applelogo} alt="Applelogo" />
-                  <h2 className="text-white text-center m-auto text-sm">
-                    {" "}
-                    Continue with Apple{" "}
                   </h2>
                 </div>
               </div>

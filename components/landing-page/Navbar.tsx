@@ -1,17 +1,25 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const Navbar: React.FC = () => {
    const router = useRouter()
 
-   const navigateToLoginPage = () => {
-     router.push("/login");
-   };
-     const navigateTosignupPage = () => {
-       router.push("/createuser");
-     };
+     let userDataString: any = null;
+     useEffect(() => {
+      //  AOS.init();
+       userDataString = localStorage.getItem("Loggeduser");
+     }, []);
+
+        const handlenavigatedashboard = () => {
+          if (userDataString) {
+            router.push("/dashboard");
+          } else {
+            router.push("/login");
+          }
+        };  
+
 
   return (
     <nav className="mx-auto  px-[1.2rem] z-20  items-center flex justify-between shape">
@@ -28,24 +36,22 @@ const Navbar: React.FC = () => {
         />
       </div>
 
-      <div className="flex justify-center mb-6 px-8 items-center space-x-4 ">
-        <Link href={"/login"}>
-          <button
-            className="text-white py-2 px-8 text-base rounded 
+      <div className="flex justify-center px-8 items-center space-x-4 ">
+        <button
+          onClick={handlenavigatedashboard}
+          className="text-white py-2 px-8 text-base rounded 
         hover:bg-gradient-to-t from-[#AD0B40] to-[#FF1917] 
          bg-opacity-15 border border-white 
           hover:border-none duration-200 ease-in	"
-          >
-            Login
-          </button>
-        </Link>
-        <Link href={"/createuser"}>
-          <button
-            className=" text-base py-2  px-8   rounded bg-white text-[#ad0b40]  border-white  hover:bg-gradient-to-t from-[#AD0B40] to-[#FF1917]  bg-opacity-15 hover:text-white hover:border-none"
-          >
+        >
+          Login
+        </button>
+
+       
+          <button className=" text-base py-2  px-8   rounded bg-white text-[#ad0b40]  border-white  hover:bg-gradient-to-t from-[#AD0B40] to-[#FF1917]  bg-opacity-15 hover:text-white hover:border-none">
             Sign Up
           </button>
-        </Link>
+       
       </div>
     </nav>
   );
